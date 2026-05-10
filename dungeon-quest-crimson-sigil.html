@@ -217,6 +217,47 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;background:#cc2222;bo
   display:none;transition:.1s;letter-spacing:1px}
 #pause-btn:hover{background:rgba(20,0,5,.9);border-color:#cc2222;color:#fff}
 #pause-btn.vis{display:block}
+
+/* ═══ INTRO FLASH ═══ */
+#intro{position:absolute;inset:0;z-index:99;background:#000;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;cursor:pointer}
+#intro-line1{height:1px;width:0;background:linear-gradient(90deg,transparent,#cc2222,transparent);
+  margin-bottom:24px;animation:il 3.8s forwards}
+@keyframes il{0%,14%{width:0;opacity:0}42%{width:320px;opacity:1}82%{width:320px;opacity:1}100%{width:320px;opacity:0}}
+#intro-name{font-size:18px;color:#fff;letter-spacing:5px;text-align:center;animation:nrev 3.8s forwards}
+@keyframes nrev{
+  0%,8%{opacity:0;letter-spacing:1px;filter:blur(18px)}
+  36%{opacity:1;letter-spacing:5px;filter:blur(0);
+    text-shadow:0 0 28px rgba(210,10,0,.95),0 0 60px rgba(210,10,0,.55),0 0 110px rgba(210,10,0,.25)}
+  72%{opacity:1;text-shadow:0 0 14px rgba(200,10,0,.55)}
+  90%{opacity:1}100%{opacity:0}}
+#intro-pre{font-size:8px;color:#884422;letter-spacing:10px;margin-top:14px;animation:prev 3.8s forwards}
+@keyframes prev{0%,32%{opacity:0}52%{opacity:1}86%{opacity:1}100%{opacity:0}}
+#intro-line2{height:1px;width:0;background:linear-gradient(90deg,transparent,#cc2222,transparent);
+  margin-top:24px;animation:il 3.8s forwards}
+#intro-skip{position:absolute;bottom:22px;font-size:5px;color:#221010;letter-spacing:2px;animation:skf 3.8s forwards}
+@keyframes skf{0%,38%{opacity:0}55%{opacity:1}90%{opacity:1}100%{opacity:0}}
+/* ═══ CREDITS ═══ */
+#credits{background:#040001;z-index:85;flex-direction:column;
+  align-items:center;overflow-y:auto;padding:20px}
+#credits::-webkit-scrollbar{width:4px}#credits::-webkit-scrollbar-thumb{background:#380010}
+#cred-box{width:680px;padding:20px 28px;background:#060001;border:2px solid #660010;margin:auto}
+#cred-ttl{font-size:11px;color:#cc2222;text-align:center;letter-spacing:4px;
+  margin-bottom:5px;padding-bottom:10px;border-bottom:1px solid #2a0008}
+#cred-sub{font-size:5px;color:#441018;text-align:center;letter-spacing:2px;margin-bottom:16px}
+.cr-sec{font-size:6px;color:#cc4422;letter-spacing:2px;margin:13px 0 6px;
+  padding-bottom:3px;border-bottom:1px solid #180006}
+.cr-row{display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:5px;font-size:5px}
+.cr-role{color:#552028;line-height:2}.cr-name{color:#dd8866;text-align:right;line-height:2}
+.cr-special{font-size:5px;color:#331018;text-align:center;margin:13px 0;line-height:2.5}
+.cr-goat{font-size:5px;color:#664430;text-align:center;margin:10px 0;line-height:2.4;
+  border:1px solid #2a1008;padding:8px;background:#030001}
+.cred-back{font-family:'Press Start 2P',monospace;font-size:6px;background:#070001;
+  border:2px solid #aa4422;color:#aa4422;padding:9px 18px;cursor:pointer;
+  display:block;margin:16px auto 0}
+.cred-back:hover{background:#140400;border-color:#ff6644;color:#fff}
+.cr-ver{font-size:4px;color:#1a0808;text-align:center;margin-top:12px;letter-spacing:1px}
 </style>
 </head>
 <body>
@@ -337,6 +378,50 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;background:#cc2222;bo
     <div class="dp blank"></div>
     <div class="dp" id="dp-d" ontouchstart="dpPress('d',event)" ontouchend="dpRel('d',event)" onmousedown="dpPress('d',event)" onmouseup="dpRel('d',event)" onmouseleave="dpRel('d',event)">▼</div>
     <div class="dp blank"></div>
+  </div>
+
+  <!-- INTRO FLASH -->
+  <div id="intro">
+    <div id="intro-line1"></div>
+    <div id="intro-name">B SRINIVASA RANGANATH</div>
+    <div id="intro-pre">P &nbsp; R &nbsp; E &nbsp; S &nbsp; E &nbsp; N &nbsp; T &nbsp; S</div>
+    <div id="intro-line2"></div>
+    <div id="intro-skip">TAP / CLICK TO SKIP</div>
+  </div>
+
+  <!-- CREDITS -->
+  <div id="credits" class="ov" style="display:none">
+    <div id="cred-box">
+      <div id="cred-ttl">CREDITS</div>
+      <div id="cred-sub">DUNGEON QUEST: THE CRIMSON SIGIL &mdash; THE UNPATCHABLE EDITION</div>
+      <div class="cr-sec">CREATED BY</div>
+      <div class="cr-row"><span class="cr-role">CREATOR &amp; SOLE DEVELOPER</span><span class="cr-name">B SRINIVASA RANGANATH</span></div>
+      <div class="cr-row"><span class="cr-role">GAME DESIGN &amp; MECHANICS</span><span class="cr-name">B SRINIVASA RANGANATH</span></div>
+      <div class="cr-row"><span class="cr-role">PIXEL ART &amp; VISUAL DESIGN</span><span class="cr-name">B SRINIVASA RANGANATH</span></div>
+      <div class="cr-row"><span class="cr-role">PROCEDURAL AUDIO ENGINE</span><span class="cr-name">B SRINIVASA RANGANATH</span></div>
+      <div class="cr-row"><span class="cr-role">STORY, SCRIPT &amp; DIALOGUE</span><span class="cr-name">B SRINIVASA RANGANATH</span></div>
+      <div class="cr-sec">TECHNOLOGY</div>
+      <div class="cr-row"><span class="cr-role">RENDERING ENGINE</span><span class="cr-name">HTML5 CANVAS API</span></div>
+      <div class="cr-row"><span class="cr-role">AUDIO</span><span class="cr-name">WEB AUDIO API &mdash; FULLY PROCEDURAL</span></div>
+      <div class="cr-row"><span class="cr-role">FONT</span><span class="cr-name">PRESS START 2P &mdash; GOOGLE FONTS</span></div>
+      <div class="cr-row"><span class="cr-role">MOBILE PACKAGING</span><span class="cr-name">APACHE CORDOVA / CAPACITOR</span></div>
+      <div class="cr-row"><span class="cr-role">EXTERNAL LIBRARIES</span><span class="cr-name">NONE &mdash; ZERO DEPENDENCIES</span></div>
+      <div class="cr-row"><span class="cr-role">PLATFORM</span><span class="cr-name">HTML5 BROWSER + ANDROID APK</span></div>
+      <div class="cr-sec">SPECIAL THANKS</div>
+      <div class="cr-special">
+        To everyone who plays this game and discovers the secret rooms.<br>
+        To the Glitch-Merc, for narrating his own existence with dignity.<br>
+        To Morgana, who just wanted the kingdom to run without errors.<br>
+        To Anvil-7, whose forge-arm is finally, finally being treated.
+      </div>
+      <div class="cr-goat">
+        &#x1F410; DEDICATED TO THE GOAT &mdash; WHO CLIPPED THROUGH THAT FENCE<br>
+        FOR SIX LOOP CYCLES WITHOUT COMPLAINT.<br>
+        THAT IS PROFESSIONALISM. THAT IS THE WORK ETHIC WE ASPIRE TO. &#x1F410;
+      </div>
+      <div class="cr-ver">v2.1 &nbsp;&middot;&nbsp; BUILT ON THE RUINS OF SANITY &nbsp;&middot;&nbsp; &copy; B SRINIVASA RANGANATH &nbsp;&middot;&nbsp; ALL RIGHTS RESERVED</div>
+      <button class="cred-back" onclick="closeCredits()">[ BACK TO HOME ]</button>
+    </div>
   </div>
 
   <!-- HOME PAGE -->
@@ -2158,7 +2243,33 @@ function quitToHome(){
   initGame();showHome();
 }
 
-document.fonts.ready.then(()=>{fitScreen();loadSTG();initGame();applyAllSTG();showHome();});
+
+// ═══════════════════════════════════════════
+// INTRO + CREDITS
+// ═══════════════════════════════════════════
+let _introTimer=null;
+function runIntro(){
+  const el=document.getElementById('intro');
+  el.style.display='flex';el.style.opacity='1';el.style.transition='';
+  el.addEventListener('click',skipIntro,{once:true});
+  _introTimer=setTimeout(skipIntro,4000);
+}
+function skipIntro(){
+  if(_introTimer){clearTimeout(_introTimer);_introTimer=null;}
+  const el=document.getElementById('intro');
+  el.style.transition='opacity .55s';el.style.opacity='0';
+  setTimeout(()=>{el.style.display='none';showHome();},560);
+}
+function openCredits(){
+  document.getElementById('home').style.display='none';
+  document.getElementById('credits').style.display='flex';
+}
+function closeCredits(){
+  document.getElementById('credits').style.display='none';
+  document.getElementById('home').style.display='flex';
+}
+
+document.fonts.ready.then(()=>{fitScreen();loadSTG();initGame();applyAllSTG();runIntro();});
 </script>
 </body>
 </html>
