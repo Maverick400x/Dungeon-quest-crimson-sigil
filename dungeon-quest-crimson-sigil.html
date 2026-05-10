@@ -94,6 +94,35 @@ body{background:#050001;min-height:100vh;display:flex;justify-content:center;
 /* GAMEOVER */
 #go{background:#040001;z-index:65;flex-direction:column;
     justify-content:center;align-items:center;gap:16px}
+/* MOBILE DPAD */
+#dpad{position:absolute;left:14px;bottom:54px;width:120px;height:120px;
+      z-index:30;pointer-events:none;opacity:0;transition:opacity .25s;
+      display:grid;grid-template-columns:repeat(3,40px);grid-template-rows:repeat(3,40px)}
+#dpad.vis{opacity:1;pointer-events:auto}
+.dp{background:rgba(180,20,0,.38);border:2px solid rgba(220,40,0,.55);
+    border-radius:6px;display:flex;align-items:center;justify-content:center;
+    font-size:14px;cursor:pointer;user-select:none;-webkit-user-select:none;
+    color:rgba(255,120,80,.9);font-family:monospace;transition:background .08s;
+    touch-action:none}
+.dp:active,.dp.act{background:rgba(220,40,0,.7);border-color:rgba(255,100,60,.9)}
+.dp.blank{background:transparent;border:none;pointer-events:none}
+/* Toggle button */
+#dpad-tog{position:absolute;right:12px;bottom:54px;z-index:31;
+          background:rgba(120,10,0,.55);border:2px solid rgba(200,30,0,.5);
+          color:rgba(255,100,60,.85);font-family:'Press Start 2P',monospace;
+          font-size:6px;padding:6px 8px;cursor:pointer;border-radius:4px;
+          line-height:1.6;text-align:center;letter-spacing:1px;transition:.15s}
+#dpad-tog:hover,#dpad-tog:active{background:rgba(200,30,0,.7);border-color:#ff6644;color:#fff}
+/* ACTION BUTTON */
+#abtn{position:absolute;right:12px;bottom:180px;z-index:31;
+      width:52px;height:52px;background:rgba(180,20,0,.38);
+      border:2px solid rgba(220,40,0,.55);border-radius:50%;
+      display:none;align-items:center;justify-content:center;
+      font-size:18px;font-weight:bold;color:rgba(255,120,80,.9);
+      cursor:pointer;user-select:none;-webkit-user-select:none;
+      touch-action:none;transition:background .08s;font-family:monospace}
+#abtn.vis{display:flex}
+#abtn:active,#abtn.act{background:rgba(220,40,0,.7);border-color:rgba(255,100,60,.9)}
 </style>
 </head>
 <body>
@@ -176,6 +205,26 @@ body{background:#050001;min-height:100vh;display:flex;justify-content:center;
     <div id="gomsg" style="font-size:6px;color:#6a3030;max-width:600px;text-align:center;line-height:2.4"></div>
     <button class="rebtn" onclick="initGame()">▶ TRY AGAIN</button>
   </div>
+
+  <!-- DPAD TOGGLE -->
+  <button id="dpad-tog" onclick="toggleDpad()" title="Toggle on-screen controls">&#x1F579;<br>CTRL</button>
+
+  <!-- DPAD -->
+  <div id="dpad">
+    <div class="dp blank"></div>
+    <div class="dp" id="dp-u" ontouchstart="dpPress('u',event)" ontouchend="dpRel('u',event)" onmousedown="dpPress('u',event)" onmouseup="dpRel('u',event)" onmouseleave="dpRel('u',event)">&#9650;</div>
+    <div class="dp blank"></div>
+    <div class="dp" id="dp-l" ontouchstart="dpPress('l',event)" ontouchend="dpRel('l',event)" onmousedown="dpPress('l',event)" onmouseup="dpRel('l',event)" onmouseleave="dpRel('l',event)">&#9664;</div>
+    <div class="dp blank" id="dp-c" style="background:rgba(100,10,0,.2);border:2px solid rgba(160,30,0,.3);border-radius:50%"></div>
+    <div class="dp" id="dp-r" ontouchstart="dpPress('r',event)" ontouchend="dpRel('r',event)" onmousedown="dpPress('r',event)" onmouseup="dpRel('r',event)" onmouseleave="dpRel('r',event)">&#9654;</div>
+    <div class="dp blank"></div>
+    <div class="dp" id="dp-d" ontouchstart="dpPress('d',event)" ontouchend="dpRel('d',event)" onmousedown="dpPress('d',event)" onmouseup="dpRel('d',event)" onmouseleave="dpRel('d',event)">&#9660;</div>
+    <div class="dp blank"></div>
+  </div>
+
+  <!-- ACT BUTTON -->
+  <div id="abtn" ontouchstart="abtnPress(event)" ontouchend="abtnRel(event)" onmousedown="abtnPress(event)" onmouseup="abtnRel(event)">A</div>
+
 </div>
 
 <script>
@@ -1478,6 +1527,47 @@ function initGame(){
 }
 
 document.fonts.ready.then(()=>{fitScreen();initGame();});
+
+// ════════════════════════════════════════════════════
+// DPAD / ON-SCREEN CONTROLS
+// ════════════════════════════════════════════════════
+let dpadVisible=false;
+const dpMap={u:[0,-1],d:[0,1],l:[-1,0],r:[1,0]};
+let dpInterval=null;
+
+function toggleDpad(){
+  dpadVisible=!dpadVisible;
+  document.getElementById('dpad').classList.toggle('vis',dpadVisible);
+  document.getElementById('abtn').classList.toggle('vis',dpadVisible);
+  document.getElementById('dpad-tog').style.background=
+    dpadVisible?'rgba(200,30,0,.7)':'rgba(120,10,0,.55)';
+}
+
+function dpPress(dir,ev){
+  ev.preventDefault();ev.stopPropagation();
+  const el=document.getElementById('dp-'+dir);
+  el.classList.add('act');
+  const d=dpMap[dir];
+  tryMove(d[0],d[1]);
+  if(dpInterval)clearInterval(dpInterval);
+  dpInterval=setInterval(()=>tryMove(d[0],d[1]),160);
+}
+function dpRel(dir,ev){
+  ev.preventDefault();
+  document.getElementById('dp-'+dir).classList.remove('act');
+  if(dpInterval){clearInterval(dpInterval);dpInterval=null;}
+}
+
+function abtnPress(ev){
+  ev.preventDefault();ev.stopPropagation();
+  document.getElementById('abtn').classList.add('act');
+  if(G.gs==='dialogue')advDlg();
+  else if(G.gs==='title'){G.gs='explore';document.getElementById('title').style.display='none';}
+}
+function abtnRel(ev){
+  ev.preventDefault();
+  document.getElementById('abtn').classList.remove('act');
+}
 </script>
 </body>
 </html>
