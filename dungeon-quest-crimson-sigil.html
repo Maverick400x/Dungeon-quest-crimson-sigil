@@ -134,6 +134,89 @@ body{background:#050001;min-height:100vh;display:flex;justify-content:center;ali
       touch-action:none;transition:background .08s;font-family:monospace}
 #abtn.vis{display:flex}
 #abtn:active,#abtn.act{background:rgba(220,40,0,.7);border-color:rgba(255,100,60,.9)}
+
+/* ═══ HOME PAGE ═══ */
+#home{position:absolute;inset:0;z-index:80;display:none;flex-direction:column;
+      justify-content:center;align-items:center;background:#050001;overflow:hidden}
+#home::before{content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 31px,rgba(180,20,0,.04) 31px,rgba(180,20,0,.04) 32px),
+             repeating-linear-gradient(90deg,transparent,transparent 31px,rgba(180,20,0,.04) 31px,rgba(180,20,0,.04) 32px);
+  pointer-events:none}
+#home::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(transparent,transparent 2px,rgba(0,0,0,.14) 2px,rgba(0,0,0,.14) 3px);pointer-events:none}
+#hmenu{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:0}
+.h-title-wrap{text-align:center;margin-bottom:28px}
+#h-t1{font-size:28px;color:#cc2222;letter-spacing:4px;text-shadow:0 0 32px rgba(200,0,0,.6),3px 3px 0 #3a0000;
+       animation:hglitch 5s infinite}
+#h-t2{font-size:12px;color:#bb5522;letter-spacing:6px;margin-top:6px;text-shadow:0 0 18px rgba(180,80,0,.5)}
+#h-t3{font-size:5px;color:#3a1810;letter-spacing:3px;margin-top:8px}
+@keyframes hglitch{0%,94%,100%{transform:none;filter:none}
+  95%{transform:translateX(-3px);filter:hue-rotate(90deg)}
+  96%{transform:translateX(3px);filter:hue-rotate(-90deg)}
+  97%{transform:none;filter:none}}
+.h-divider{width:420px;height:1px;background:linear-gradient(90deg,transparent,#660010,transparent);margin:16px 0}
+#h-btns{display:flex;flex-direction:column;gap:8px;width:340px}
+.hbtn{background:rgba(10,0,2,.7);border:2px solid #551010;color:#cc5540;
+      font-family:'Press Start 2P',monospace;font-size:8px;padding:13px 20px;
+      cursor:pointer;text-align:left;letter-spacing:1px;transition:.12s;width:100%}
+.hbtn:hover{background:rgba(30,0,5,.9);border-color:#dd3322;color:#fff;
+            box-shadow:0 0 18px rgba(200,20,0,.3);transform:translateX(3px)}
+.hbtn.active{border-color:#ff8844;color:#ffcc44}
+#h-ver{font-size:5px;color:#261012;letter-spacing:1px;margin-top:22px;text-align:center;line-height:2}
+/* ═══ PAUSE ═══ */
+#pause{background:rgba(2,0,4,.9);z-index:70;flex-direction:column;
+       justify-content:center;align-items:center;gap:10px;
+       backdrop-filter:blur(2px)}
+#p-box{background:#060001;border:2px solid #880010;padding:20px 28px;min-width:380px}
+#p-title{font-size:11px;color:#cc2222;text-align:center;letter-spacing:4px;margin-bottom:4px}
+#p-quip{font-size:5px;color:#441018;text-align:center;margin-bottom:12px;line-height:2}
+#p-runstats{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-bottom:14px}
+.prs{background:#040001;border:1px solid #200008;padding:5px;text-align:center;font-size:5px;color:#4a2030}
+.prs-v{display:block;font-size:9px;color:#ff6644;margin-bottom:2px}
+#p-btns{display:flex;flex-direction:column;gap:7px}
+.pbtn{background:#08000a;border:1px solid #480010;color:#bb5040;font-family:'Press Start 2P',monospace;
+      font-size:7px;padding:10px 14px;cursor:pointer;text-align:left;transition:.1s}
+.pbtn:hover{background:#140005;border-color:#cc3322;color:#fff}
+.pbtn.danger{border-color:#441100;color:#884422}
+.pbtn.danger:hover{border-color:#ff6600;color:#ffaa44}
+/* ═══ SETTINGS ═══ */
+#settings{background:rgba(2,0,4,.97);z-index:75;flex-direction:column;
+          align-items:center;overflow-y:auto;padding:16px 12px;gap:0}
+#stg-box{background:#050001;border:2px solid #660010;padding:16px 22px;
+         width:760px;max-height:500px;overflow-y:auto}
+#stg-box::-webkit-scrollbar{width:4px}#stg-box::-webkit-scrollbar-thumb{background:#380010}
+#stg-hdr{font-size:10px;color:#cc2222;letter-spacing:3px;text-align:center;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid #2a0008}
+.stg-cols{display:grid;grid-template-columns:1fr 1fr;gap:0 24px}
+.stg-sec{font-size:6px;color:#cc4422;letter-spacing:2px;margin:10px 0 6px;
+         padding-bottom:4px;border-bottom:1px solid #1e0006}
+.stg-row{display:flex;align-items:center;gap:8px;margin-bottom:7px;min-height:22px}
+.stg-lbl{font-size:5px;color:#885060;width:140px;flex-shrink:0}
+.stg-val{font-size:5px;color:#cc6644;width:36px;text-align:right;flex-shrink:0}
+input[type=range]{-webkit-appearance:none;appearance:none;flex:1;height:6px;
+  background:#1a0005;border:1px solid #3a0010;border-radius:2px;cursor:pointer;outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;
+  background:#cc2222;border:1px solid #ff4444;border-radius:2px;cursor:pointer}
+input[type=range]::-moz-range-thumb{width:14px;height:14px;background:#cc2222;border:1px solid #ff4444;border-radius:2px;cursor:pointer}
+.stg-tog{font-family:'Press Start 2P',monospace;font-size:5px;padding:4px 8px;
+  cursor:pointer;border-radius:2px;border:1px solid #441010;background:#0a0002;color:#664040;transition:.1s;flex-shrink:0}
+.stg-tog.on{background:#1a0008;border-color:#cc2222;color:#ff5544}
+.stg-tog:hover{border-color:#ff4444;color:#fff}
+.stg-opts{display:flex;gap:4px;flex:1}
+.sopt{font-family:'Press Start 2P',monospace;font-size:5px;padding:4px 7px;
+  cursor:pointer;border:1px solid #441010;background:#0a0002;color:#664040;transition:.1s}
+.sopt.on{background:#1a0008;border-color:#cc2222;color:#ff5544}
+.sopt:hover{border-color:#ff4444;color:#fff}
+.stg-back{font-family:'Press Start 2P',monospace;font-size:6px;background:#070001;
+  border:2px solid #aa4422;color:#aa4422;padding:9px 18px;cursor:pointer;
+  margin-top:14px;display:block;margin-left:auto;margin-right:auto}
+.stg-back:hover{background:#140400;border-color:#ff6644;color:#fff}
+/* pause indicator on HUD */
+#pause-btn{position:absolute;right:12px;top:8px;z-index:35;
+  font-family:'Press Start 2P',monospace;font-size:6px;
+  background:rgba(8,0,2,.7);border:1px solid rgba(100,10,20,.6);
+  color:rgba(160,60,50,.8);padding:5px 7px;cursor:pointer;
+  display:none;transition:.1s;letter-spacing:1px}
+#pause-btn:hover{background:rgba(20,0,5,.9);border-color:#cc2222;color:#fff}
+#pause-btn.vis{display:block}
 </style>
 </head>
 <body>
@@ -255,6 +338,105 @@ body{background:#050001;min-height:100vh;display:flex;justify-content:center;ali
     <div class="dp" id="dp-d" ontouchstart="dpPress('d',event)" ontouchend="dpRel('d',event)" onmousedown="dpPress('d',event)" onmouseup="dpRel('d',event)" onmouseleave="dpRel('d',event)">▼</div>
     <div class="dp blank"></div>
   </div>
+
+  <!-- HOME PAGE -->
+  <div id="home" style="display:none">
+    <div id="hmenu">
+      <div class="h-title-wrap">
+        <div id="h-t1">DUNGEON QUEST</div>
+        <div id="h-t2">THE CRIMSON SIGIL</div>
+        <div id="h-t3">THE &apos;UNPATCHABLE&apos; EDITION</div>
+      </div>
+      <div class="h-divider"></div>
+      <div id="h-btns">
+        <button class="hbtn" id="hbtn-play" onclick="startGame()">▶  NEW GAME</button>
+        <button class="hbtn" onclick="openSettings('home')">⚙  SETTINGS</button>
+        <button class="hbtn" id="hbtn-hm" onclick="toggleHard()">☠  HARD MODE: OFF</button>
+      </div>
+      <div class="h-divider"></div>
+      <div id="h-ver">WASD / ARROWS TO MOVE · BUMP ENEMIES TO FIGHT · TALK TO NPCs<br>v2.1 · BUILT ON THE RUINS OF SANITY · GOAT CONTENT PRESENT</div>
+    </div>
+  </div>
+
+  <!-- PAUSE -->
+  <div id="pause" class="ov" style="display:none">
+    <div id="p-box">
+      <div id="p-title">// PAUSED //</div>
+      <div id="p-quip">"Taking a break? Understandable. I'll be here."</div>
+      <div id="p-runstats"></div>
+      <div id="p-btns">
+        <button class="pbtn" onclick="resumeGame()">▶  RESUME</button>
+        <button class="pbtn" onclick="openSettings('pause')">⚙  SETTINGS</button>
+        <button class="pbtn danger" onclick="confirmRestart()">↺  RESTART RUN</button>
+        <button class="pbtn danger" onclick="quitToHome()">⌂  QUIT TO HOME</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SETTINGS -->
+  <div id="settings" class="ov" style="display:none">
+    <div id="stg-box">
+      <div id="stg-hdr">⚙ SETTINGS</div>
+      <div class="stg-cols">
+        <div>
+          <div class="stg-sec">DISPLAY</div>
+          <div class="stg-row"><span class="stg-lbl">BRIGHTNESS</span><input type="range" id="s-bri" min="50" max="160" value="100" oninput="applyST('bri',this)"><span class="stg-val" id="sv-bri">100%</span></div>
+          <div class="stg-row"><span class="stg-lbl">CONTRAST</span><input type="range" id="s-con" min="60" max="160" value="100" oninput="applyST('con',this)"><span class="stg-val" id="sv-con">100%</span></div>
+          <div class="stg-row"><span class="stg-lbl">SATURATION</span><input type="range" id="s-sat" min="0" max="200" value="100" oninput="applyST('sat',this)"><span class="stg-val" id="sv-sat">100%</span></div>
+          <div class="stg-row"><span class="stg-lbl">CRT SCANLINES</span><button class="stg-tog on" id="tog-crt" onclick="togST('crt',this)">ON</button></div>
+          <div class="stg-row"><span class="stg-lbl">VIGNETTE</span><button class="stg-tog on" id="tog-vig" onclick="togST('vig',this)">ON</button></div>
+          <div class="stg-row"><span class="stg-lbl">GLITCH FX</span><button class="stg-tog on" id="tog-glf" onclick="togST('glf',this)">ON</button></div>
+          <div class="stg-sec">AUDIO</div>
+          <div class="stg-row"><span class="stg-lbl">SFX VOLUME</span><input type="range" id="s-vol" min="0" max="100" value="80" oninput="applyST('vol',this)"><span class="stg-val" id="sv-vol">80%</span></div>
+          <div class="stg-sec">GAMEPLAY</div>
+          <div class="stg-row"><span class="stg-lbl">HARD MODE</span><button class="stg-tog" id="tog-hm" onclick="togST('hm',this)">OFF</button></div>
+          <div class="stg-row"><span class="stg-lbl">AUTO-ADVANCE DIALOGUE</span><button class="stg-tog" id="tog-adlg" onclick="togST('adlg',this)">OFF</button></div>
+          <div class="stg-row"><span class="stg-lbl">SHOW MINI-MAP</span><button class="stg-tog on" id="tog-map" onclick="togST('map',this)">ON</button></div>
+        </div>
+        <div>
+          <div class="stg-sec">ON-SCREEN D-PAD</div>
+          <div class="stg-row"><span class="stg-lbl">SIZE</span>
+            <div class="stg-opts">
+              <button class="sopt" id="dpS-s" onclick="setDP('sz','s')">SMALL</button>
+              <button class="sopt on" id="dpS-m" onclick="setDP('sz','m')">MEDIUM</button>
+              <button class="sopt" id="dpS-l" onclick="setDP('sz','l')">LARGE</button>
+            </div>
+          </div>
+          <div class="stg-row"><span class="stg-lbl">SIDE</span>
+            <div class="stg-opts">
+              <button class="sopt on" id="dpSd-l" onclick="setDP('sd','l')">LEFT</button>
+              <button class="sopt" id="dpSd-r" onclick="setDP('sd','r')">RIGHT</button>
+            </div>
+          </div>
+          <div class="stg-row"><span class="stg-lbl">OPACITY</span><input type="range" id="s-dpop" min="20" max="100" value="85" oninput="applyST('dpop',this)"><span class="stg-val" id="sv-dpop">85%</span></div>
+          <div class="stg-row"><span class="stg-lbl">BOTTOM OFFSET</span><input type="range" id="s-dpbot" min="44" max="180" value="54" oninput="applyST('dpbot',this)"><span class="stg-val" id="sv-dpbot">54px</span></div>
+          <div class="stg-row"><span class="stg-lbl">ACTION BTN OFFSET</span><input type="range" id="s-abbot" min="100" max="280" value="180" oninput="applyST('abbot',this)"><span class="stg-val" id="sv-abbot">180px</span></div>
+          <div class="stg-sec">PREVIEW</div>
+          <div style="background:#080001;border:1px solid #200008;padding:10px;position:relative;height:96px;margin-bottom:8px;overflow:hidden">
+            <div id="dp-prev" style="position:absolute;display:grid;grid-template-columns:repeat(3,28px);grid-template-rows:repeat(3,28px);opacity:0.85">
+              <div style="background:transparent"></div>
+              <div style="background:rgba(180,20,0,.4);border:2px solid rgba(220,40,0,.6);border-radius:4px;display:flex;align-items:center;justify-content:center;color:rgba(255,120,80,.9);font-size:10px">▲</div>
+              <div style="background:transparent"></div>
+              <div style="background:rgba(180,20,0,.4);border:2px solid rgba(220,40,0,.6);border-radius:4px;display:flex;align-items:center;justify-content:center;color:rgba(255,120,80,.9);font-size:10px">◀</div>
+              <div style="background:rgba(100,10,0,.2);border:2px solid rgba(140,20,0,.3);border-radius:50%"></div>
+              <div style="background:rgba(180,20,0,.4);border:2px solid rgba(220,40,0,.6);border-radius:4px;display:flex;align-items:center;justify-content:center;color:rgba(255,120,80,.9);font-size:10px">▶</div>
+              <div style="background:transparent"></div>
+              <div style="background:rgba(180,20,0,.4);border:2px solid rgba(220,40,0,.6);border-radius:4px;display:flex;align-items:center;justify-content:center;color:rgba(255,120,80,.9);font-size:10px">▼</div>
+              <div style="background:transparent"></div>
+            </div>
+            <div id="ab-prev" style="position:absolute;width:36px;height:36px;background:rgba(180,20,0,.4);border:2px solid rgba(220,40,0,.6);border-radius:50%;display:flex;align-items:center;justify-content:center;color:rgba(255,120,80,.9);font-size:14px;font-weight:bold">A</div>
+          </div>
+          <div class="stg-sec">RESET</div>
+          <div class="stg-row"><button class="sopt" style="width:100%;padding:7px" onclick="resetSettings()">RESET ALL TO DEFAULT</button></div>
+        </div>
+      </div>
+      <button class="stg-back" onclick="closeSettings()">[ BACK ]</button>
+    </div>
+  </div>
+
+  <!-- PAUSE BUTTON -->
+  <button id="pause-btn" onclick="togglePause()">⏸ PAUSE</button>
+
   <div id="abtn" ontouchstart="abtnPress(event)" ontouchend="abtnRel(event)" onmousedown="abtnPress(event)" onmouseup="abtnRel(event)">A</div>
 </div>
 
@@ -299,7 +481,11 @@ window.addEventListener('resize',fitScreen);
 // AUDIO
 // ═══════════════════════════════════════════
 let AC=null;
-function au(f,d,tp='square',v=.1,sw=0){
+const STG_DEF={bri:100,con:100,sat:100,vol:80,crt:true,vig:true,glf:true,map:true,
+  dpop:85,dpbot:54,abbot:180,dpSz:'m',dpSd:'l',adlg:false,hm:false};
+let STG=Object.assign({},STG_DEF);
+
+function au(f,d,tp='square',v=.1,sw=0){v=v*(STG.vol/80);
   try{if(!AC)AC=new(window.AudioContext||window.webkitAudioContext)();
     const o=AC.createOscillator(),g=AC.createGain();
     o.connect(g);g.connect(AC.destination);o.type=tp;o.frequency.value=f;
@@ -1614,9 +1800,12 @@ function renderTitle(now){
   tc.font='5px "Press Start 2P","Courier New"';tc.fillStyle='#2a1010';tc.fillText('[INTERNAL ERROR: SCRIPT TOO AWESOME] — END OF FILE',254,508);
 }
 function toggleHard(){
-  G.hardMode=!G.hardMode;
+  G.hardMode=!G.hardMode;STG.hm=G.hardMode;saveSTG();
   const btn=document.getElementById('hm-btn');
-  btn.textContent='HARD MODE: '+(G.hardMode?'ON':'OFF');btn.classList.toggle('on',G.hardMode);
+  if(btn){btn.textContent='HARD MODE: '+(G.hardMode?'ON':'OFF');btn.classList.toggle('on',G.hardMode);}
+  const btn2=document.getElementById('hbtn-hm');
+  if(btn2){btn2.textContent='☠  HARD MODE: '+(G.hardMode?'ON':'OFF');btn2.classList.toggle('active',G.hardMode);}
+  const tog=document.getElementById('tog-hm');if(tog){tog.textContent=G.hardMode?'ON':'OFF';tog.classList.toggle('on',G.hardMode);}
 }
 
 // ═══════════════════════════════════════════
@@ -1687,7 +1876,7 @@ function render(now){
   cx.restore();
   renderHUD();
   renderMsgBar();
-  if(G.mode==='dungeon')renderMiniMap();
+  if(G.mode==='dungeon'&&STG.map)renderMiniMap();
   // Live update combat portraits
   if(G.gs==='combat'&&G.ce?.boss){
     const ep=document.getElementById('cep');const ec=ep.getContext('2d');ec.imageSmoothingEnabled=false;
@@ -1700,10 +1889,8 @@ function render(now){
     c.fillStyle='#040001';c.fillRect(0,0,96,96);drawBoss(c,'morgana',8,8,3,now,null);
   }
   // CRT + vignette
-  cx.fillStyle='rgba(0,0,0,.03)';for(let y=0;y<540;y+=3)cx.fillRect(0,y,960,1);
-  const vg=cx.createRadialGradient(480,270,140,480,270,370);
-  vg.addColorStop(0,'rgba(0,0,0,0)');vg.addColorStop(1,'rgba(0,0,0,.5)');
-  cx.fillStyle=vg;cx.fillRect(0,0,960,540);
+  if(STG.crt){cx.fillStyle='rgba(0,0,0,.03)';for(let y=0;y<540;y+=3)cx.fillRect(0,y,960,1);}
+  if(STG.vig){const vg=cx.createRadialGradient(480,270,140,480,270,370);vg.addColorStop(0,'rgba(0,0,0,0)');vg.addColorStop(1,'rgba(0,0,0,.5)');cx.fillStyle=vg;cx.fillRect(0,0,960,540);}
 }
 
 // ═══════════════════════════════════════════
@@ -1724,13 +1911,21 @@ function gameLoop(now){
 const DIRS={ArrowUp:[0,-1],ArrowDown:[0,1],ArrowLeft:[-1,0],ArrowRight:[1,0],
   w:[0,-1],s:[0,1],a:[-1,0],d:[1,0],W:[0,-1],S:[0,1],A:[-1,0],D:[1,0]};
 document.addEventListener('keydown',ev=>{
-  if(G.gs==='title'){ev.preventDefault();G.gs='explore';document.getElementById('title').style.display='none';return;}
+  if(G.gs==='home'){if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();startGame();}return;}
+  if(ev.key==='Escape'){
+    if(G.gs==='settings'){closeSettings();return;}
+    if(G.gs==='paused'){resumeGame();return;}
+    if(PAUSEABLE.includes(G.gs)){pauseGame();return;}
+  }
+  if(ev.key==='p'||ev.key==='P'){if(PAUSEABLE.includes(G.gs)||G.gs==='paused'){togglePause();return;}}
+  if(G.gs==='title'){ev.preventDefault();G.gs='explore';document.getElementById('title').style.display='none';document.getElementById('pause-btn').classList.add('vis');return;}
   if(G.gs==='dialogue'){ev.preventDefault();advDlg();return;}
   if(G.gs==='shop'){if(ev.key==='Escape'||ev.key==='Enter'){closeShop();}return;}
   if(G.gs==='lore'){if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();closeLore();}return;}
+  if(G.gs==='paused'||G.gs==='home')return;
   const dir=DIRS[ev.key];if(dir){ev.preventDefault();tryMove(...dir);}
 });
-document.getElementById('title').addEventListener('click',()=>{if(G.gs==='title'){G.gs='explore';document.getElementById('title').style.display='none';}});
+document.getElementById('title').addEventListener('click',()=>{if(G.gs==='title'){G.gs='explore';document.getElementById('title').style.display='none';document.getElementById('pause-btn').classList.add('vis');}});
 document.getElementById('dlg').addEventListener('click',()=>{if(G.gs==='dialogue')advDlg();});
 let ts2=null;
 document.getElementById('mc').addEventListener('touchstart',ev=>{ts2={x:ev.touches[0].clientX,y:ev.touches[0].clientY};ev.preventDefault();},{passive:false});
@@ -1798,8 +1993,9 @@ function initGame(){
     stats:{kills:0,gold:10,chimiEaten:0,dmgDealt:0,dmgTaken:0,turns:0,counters:0,secrets:0},
     lastFrame:performance.now(),raf:0
   });
-  ['cs','dlg','bbl','ec','end','go','shop','lore'].forEach(id=>document.getElementById(id).style.display='none');
-  document.getElementById('title').style.display='flex';
+  ['cs','dlg','bbl','ec','end','go','shop','lore','pause','settings'].forEach(id=>document.getElementById(id).style.display='none');
+  document.getElementById('title').style.display='none';
+  document.getElementById('home').style.display='none';
   document.getElementById('cb5').style.display='none';
   if(G.dTimer){clearInterval(G.dTimer);G.dTimer=null;}
   G.msgs=[];
@@ -1807,7 +2003,162 @@ function initGame(){
   addMsg('"Talk to NPCs. Shop. Portal. Three bosses. Let\'s go."');
   G.lastFrame=performance.now();G.raf=requestAnimationFrame(gameLoop);
 }
-document.fonts.ready.then(()=>{fitScreen();initGame();});
+function initAndHome(){initGame();showHome();}
+
+// ═══════════════════════════════════════════
+// SETTINGS
+// ═══════════════════════════════════════════
+let _settingsFrom='home';
+
+function loadSTG(){try{const s=JSON.parse(localStorage.getItem('csg-stg2'));if(s)Object.assign(STG,s);}catch(e){}}
+function saveSTG(){try{localStorage.setItem('csg-stg2',JSON.stringify(STG));}catch(e){}}
+
+function applyAllSTG(){
+  const mc=document.getElementById('mc');
+  mc.style.filter=`brightness(${STG.bri}%) contrast(${STG.con}%) saturate(${STG.sat}%)`;
+  // dpad
+  const dp=document.getElementById('dpad'),ab=document.getElementById('abtn');
+  const szMap={s:'80px',m:'120px',l:'164px'};const bszMap={s:'26px',m:'40px',l:'54px'};
+  dp.style.width=szMap[STG.dpSz];dp.style.height=szMap[STG.dpSz];
+  dp.style.gridTemplateColumns=`repeat(3,${bszMap[STG.dpSz]})`;dp.style.gridTemplateRows=`repeat(3,${bszMap[STG.dpSz]})`;
+  const abSz=STG.dpSz==='s'?36:STG.dpSz==='m'?52:68;
+  ab.style.width=abSz+'px';ab.style.height=abSz+'px';ab.style.fontSize=(abSz*.34)+'px';
+  dp.style.opacity=STG.dpop/100;ab.style.opacity=STG.dpop/100;
+  dp.style.bottom=STG.dpbot+'px';ab.style.bottom=STG.abbot+'px';
+  if(STG.dpSd==='r'){dp.style.left='auto';dp.style.right='14px';ab.style.right='auto';ab.style.left='12px';}
+  else{dp.style.left='14px';dp.style.right='auto';ab.style.left='auto';ab.style.right='12px';}
+  // sfx volume stored on STG.vol (applied when sounds play)
+  // sync UI
+  syncSTGUI();
+  // hard mode sync
+  G.hardMode=STG.hm;
+  document.getElementById('hbtn-hm').textContent='☠  HARD MODE: '+(STG.hm?'ON':'OFF');
+  document.getElementById('hbtn-hm').classList.toggle('active',STG.hm);
+}
+
+function syncSTGUI(){
+  ['bri','con','sat','vol','dpop','dpbot','abbot'].forEach(k=>{
+    const el=document.getElementById('s-'+k);if(!el)return;
+    el.value=STG[k];
+    const lbl=document.getElementById('sv-'+k);if(lbl)lbl.textContent=STG[k]+(k==='dpbot'||k==='abbot'?'px':'%');
+  });
+  ['crt','vig','glf','map','adlg','hm'].forEach(k=>{
+    const el=document.getElementById('tog-'+k);if(!el)return;
+    el.textContent=STG[k]?'ON':'OFF';el.classList.toggle('on',STG[k]);
+  });
+  ['s','m','l'].forEach(v=>{const el=document.getElementById('dpS-'+v);if(el)el.classList.toggle('on',STG.dpSz===v);});
+  ['l','r'].forEach(v=>{const el=document.getElementById('dpSd-'+v);if(el)el.classList.toggle('on',STG.dpSd===v);});
+  // preview
+  const dp2=document.getElementById('dp-prev'),ab2=document.getElementById('ab-prev');
+  if(dp2&&ab2){
+    const szMap={s:'84px',m:'120px',l:'162px'};const bszMap={s:'28px',m:'40px',l:'54px'};
+    dp2.style.width=szMap[STG.dpSz];dp2.style.height=szMap[STG.dpSz];
+    dp2.style.gridTemplateColumns=`repeat(3,${bszMap[STG.dpSz]})`;dp2.style.gridTemplateRows=`repeat(3,${bszMap[STG.dpSz]})`;
+    const abSz=STG.dpSz==='s'?28:STG.dpSz==='m'?40:52;
+    ab2.style.width=abSz+'px';ab2.style.height=abSz+'px';ab2.style.fontSize=(abSz*.34)+'px';
+    dp2.style.opacity=STG.dpop/100;ab2.style.opacity=STG.dpop/100;
+    // side
+    if(STG.dpSd==='r'){dp2.style.left='8px';dp2.style.right='auto';ab2.style.right='8px';ab2.style.left='auto';}
+    else{dp2.style.left='8px';dp2.style.right='auto';ab2.style.left='auto';ab2.style.right='8px';}
+    ab2.style.bottom='8px';
+  }
+}
+
+function applyST(key,el){
+  STG[key]=parseInt(el.value);
+  const lbl=document.getElementById('sv-'+key);
+  if(lbl)lbl.textContent=STG[key]+(key==='dpbot'||key==='abbot'?'px':'%');
+  applyAllSTG();saveSTG();
+}
+function togST(key,btn){
+  if(key==='hm'){toggleHard();return;}
+  STG[key]=!STG[key];btn.textContent=STG[key]?'ON':'OFF';btn.classList.toggle('on',STG[key]);
+  if(key==='adlg'){}// handled in dialogue engine
+  applyAllSTG();saveSTG();
+}
+function setDP(type,val){
+  if(type==='sz')STG.dpSz=val;else STG.dpSd=val;
+  applyAllSTG();saveSTG();
+}
+function resetSettings(){
+  Object.assign(STG,STG_DEF);applyAllSTG();saveSTG();
+  syncSTGUI();
+}
+
+function openSettings(from){
+  _settingsFrom=from;
+  syncSTGUI();
+  document.getElementById('settings').style.display='flex';
+}
+function closeSettings(){
+  document.getElementById('settings').style.display='none';
+  if(_settingsFrom==='home'){document.getElementById('home').style.display='flex';}
+  else if(_settingsFrom==='pause'){document.getElementById('pause').style.display='flex';}
+}
+
+// ═══════════════════════════════════════════
+// HOME PAGE
+// ═══════════════════════════════════════════
+function showHome(){
+  G.gs='home';
+  ['cs','dlg','bbl','ec','end','go','shop','lore','pause','settings',
+   'title'].forEach(id=>{const e=document.getElementById(id);if(e)e.style.display='none';});
+  document.getElementById('home').style.display='flex';
+  document.getElementById('pause-btn').classList.remove('vis');
+  // sync hard mode button
+  document.getElementById('hbtn-hm').textContent='☠  HARD MODE: '+(STG.hm?'ON':'OFF');
+  document.getElementById('hbtn-hm').classList.toggle('active',STG.hm);
+}
+function startGame(){
+  document.getElementById('home').style.display='none';
+  document.getElementById('title').style.display='flex';
+  G.gs='title';
+}
+
+// ═══════════════════════════════════════════
+// PAUSE
+// ═══════════════════════════════════════════
+const PAUSEABLE=['explore','shop'];
+let _prePauseGs='explore';
+function togglePause(){
+  if(G.gs==='paused')resumeGame();
+  else if(PAUSEABLE.includes(G.gs))pauseGame();
+}
+function pauseGame(){
+  _prePauseGs=G.gs;G.gs='paused';
+  document.getElementById('pause').style.display='flex';
+  // Run stats
+  const s=G.stats,p=G.pl,fl=G.mode==='village'?'VILLAGE':('FL.'+(G.floor+1));
+  document.getElementById('p-runstats').innerHTML=
+    `<div class="prs"><span class="prs-v">${p.lv}</span>LEVEL</div>`+
+    `<div class="prs"><span class="prs-v">${s.kills}</span>KILLS</div>`+
+    `<div class="prs"><span class="prs-v">${p.gold}g</span>GOLD</div>`+
+    `<div class="prs"><span class="prs-v">${Math.max(0,p.hp)}/${p.mhp}</span>HP</div>`+
+    `<div class="prs"><span class="prs-v">${s.dmgDealt}</span>DEALT</div>`+
+    `<div class="prs"><span class="prs-v">${fl}</span>FLOOR</div>`;
+  document.getElementById('p-quip').textContent=[
+    "'Taking a break? Understandable. I'll be here.'",
+    '"The dungeon will wait. Probably."',
+    '"Paused. The enemies are frozen in existential confusion."',
+    '"Smart. Check your surroundings. Both in-game and IRL."'
+  ][Math.floor(Math.random()*4)];
+}
+function resumeGame(){
+  document.getElementById('pause').style.display='none';G.gs=_prePauseGs;
+}
+function confirmRestart(){
+  if(confirm('Restart this run? All progress will be lost.')){
+    document.getElementById('pause').style.display='none';
+    initGame();showHome();
+  }
+}
+function quitToHome(){
+  document.getElementById('pause').style.display='none';
+  cancelAnimationFrame(G.raf);
+  initGame();showHome();
+}
+
+document.fonts.ready.then(()=>{fitScreen();loadSTG();initGame();applyAllSTG();showHome();});
 </script>
 </body>
 </html>
