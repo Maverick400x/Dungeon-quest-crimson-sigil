@@ -258,6 +258,56 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;background:#cc2222;bo
   display:block;margin:16px auto 0}
 .cred-back:hover{background:#140400;border-color:#ff6644;color:#fff}
 .cr-ver{font-size:4px;color:#1a0808;text-align:center;margin-top:12px;letter-spacing:1px}
+
+/* ═══ CREATOR INTRO ═══ */
+#creator{position:absolute;inset:0;z-index:200;background:#000;
+  display:none;flex-direction:column;align-items:center;justify-content:center;
+  gap:10px;cursor:pointer;transition:opacity .6s}
+#creator.fade{opacity:0;pointer-events:none}
+.cr-line{width:560px;height:1px;background:linear-gradient(90deg,transparent,#880010,transparent);margin:6px 0}
+#cr-name{font-size:14px;color:#cc2222;letter-spacing:5px;text-align:center;
+  animation:crfade 3.2s ease forwards;text-shadow:0 0 40px rgba(200,0,0,.6)}
+#cr-sub{font-size:7px;color:#551010;letter-spacing:8px;text-align:center;
+  animation:crfade 3.2s ease .2s forwards;opacity:0}
+#cr-skip{font-size:5px;color:#2a0808;position:absolute;bottom:18px;right:20px;letter-spacing:2px}
+@keyframes crfade{0%{opacity:0;transform:scale(.96)}18%{opacity:1;transform:scale(1)}
+  80%{opacity:1}100%{opacity:1}}
+
+/* ═══ CREDITS ═══ */
+#credits{background:rgba(2,0,6,.97);z-index:82;flex-direction:column;
+  justify-content:flex-start;align-items:center;overflow-y:auto;padding:30px 20px}
+#credits::-webkit-scrollbar{width:4px}#credits::-webkit-scrollbar-thumb{background:#380010}
+.cred-box{background:#040001;border:2px solid #660010;padding:22px 32px;width:680px;text-align:center}
+.cred-title{font-size:11px;color:#cc2222;letter-spacing:3px;margin-bottom:4px}
+.cred-sub{font-size:6px;color:#441010;letter-spacing:4px;margin-bottom:22px}
+.cred-sec{font-size:7px;color:#cc4422;letter-spacing:2px;margin:16px 0 8px;padding-bottom:4px;
+  border-bottom:1px solid #1e0006}
+.cred-name{font-size:8px;color:#ff8844;letter-spacing:2px;margin-bottom:3px}
+.cred-role{font-size:5px;color:#553020;margin-bottom:10px;line-height:2}
+.cred-item{font-size:5px;color:#664030;line-height:2.5;margin-bottom:3px}
+.cred-ded{font-size:6px;color:#884422;line-height:2.3;font-style:normal;margin-bottom:12px}
+.cred-err{font-size:5px;color:#221008;margin-top:16px}
+.cred-back{font-family:'Press Start 2P',monospace;font-size:6px;background:#070001;
+  border:2px solid #aa4422;color:#aa4422;padding:9px 18px;cursor:pointer;margin-top:18px}
+.cred-back:hover{background:#140400;border-color:#ff6644;color:#fff}
+
+/* ═══ CUTSCENE ═══ */
+#csbar{position:absolute;bottom:44px;left:0;right:0;height:106px;
+  background:rgba(3,0,8,.96);border-top:2px solid #880010;z-index:5;padding:10px 16px 8px;
+  display:flex;gap:12px;align-items:flex-start;pointer-events:none}
+#cs-port{image-rendering:pixelated;border:1px solid #380010;background:#030001;flex-shrink:0}
+.cs-txt-wrap{flex:1}
+#cs-spk{font-size:6px;color:#ff4444;letter-spacing:1px;margin-bottom:4px}
+#cs-txt{font-size:5px;color:#c88080;line-height:2;min-height:28px}
+#cs-adv{font-size:5px;color:#3a1520;margin-top:3px}
+#cs-skip-btn{position:absolute;top:56px;right:10px;z-index:6;
+  font-family:'Press Start 2P',monospace;font-size:5px;background:rgba(8,0,2,.8);
+  border:1px solid #440008;color:#663030;padding:4px 8px;cursor:pointer}
+#cs-skip-btn:hover{border-color:#cc2222;color:#fff}
+.cs-panel-info{position:absolute;top:56px;left:10px;z-index:6;font-size:5px;color:#220008}
+/* enemy counter pill */
+.ectr{position:absolute;left:4px;background:rgba(0,0,0,.65);
+  padding:2px 7px;font-size:5px;font-family:'Press Start 2P',monospace}
 </style>
 </head>
 <body>
@@ -390,7 +440,7 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;background:#cc2222;bo
   </div>
 
   <!-- CREDITS -->
-  <div id="credits" class="ov" style="display:none">
+  <div id="credits" style="display:none;position:absolute;inset:0;z-index:82;background:rgba(2,0,6,.97);flex-direction:column;justify-content:flex-start;align-items:center;overflow-y:auto;padding:30px 20px">
     <div id="cred-box">
       <div id="cred-ttl">CREDITS</div>
       <div id="cred-sub">DUNGEON QUEST: THE CRIMSON SIGIL &mdash; THE UNPATCHABLE EDITION</div>
@@ -424,6 +474,56 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;background:#cc2222;bo
     </div>
   </div>
 
+  <!-- CREATOR INTRO -->
+  <div id="creator" style="display:none" onclick="skipCreator()">
+    <div class="cr-line"></div>
+    <div id="cr-name">B SRINIVASA RANGANATH</div>
+    <div id="cr-sub">P R E S E N T S</div>
+    <div class="cr-line"></div>
+    <div id="cr-skip">CLICK TO SKIP</div>
+  </div>
+
+  <!-- CREDITS -->
+  <div id="credits" style="display:none;position:absolute;inset:0;z-index:82;background:rgba(2,0,6,.97);flex-direction:column;justify-content:flex-start;align-items:center;overflow-y:auto;padding:30px 20px">
+    <div class="cred-box">
+      <div class="cred-title">DUNGEON QUEST</div>
+      <div class="cred-sub">THE CRIMSON SIGIL · CREDITS</div>
+      <div class="cred-sec">CREATED BY</div>
+      <div class="cred-name">B SRINIVASA RANGANATH</div>
+      <div class="cred-role">Design · Development · Story · Art Direction</div>
+      <div class="cred-sec">STORY & SCRIPT</div>
+      <div class="cred-item">Original Concept — B Srinivasa Ranganath</div>
+      <div class="cred-item">Expanded Script & Dialogue — AI Assisted Development</div>
+      <div class="cred-item">Fourth-Wall Breach Mechanics — The Glitch-Merc (uncredited)</div>
+      <div class="cred-sec">TECHNOLOGY</div>
+      <div class="cred-item">HTML5 Canvas · Web Audio API · Vanilla JavaScript</div>
+      <div class="cred-item">Press Start 2P Typeface — Google Fonts (OFL License)</div>
+      <div class="cred-item">Zero external game frameworks. Zero dependencies. Maximum spite.</div>
+      <div class="cred-sec">SPECIAL THANKS</div>
+      <div class="cred-item">THE GOAT — For six cycles of professional fence-clipping</div>
+      <div class="cred-item">ANVIL-7 — For tolerating every single joke with dignity</div>
+      <div class="cred-item">DATA-MOTHER — For knowing everything and explaining nothing</div>
+      <div class="cred-item">MORGANA — For trying her best with extremely limited UI skills</div>
+      <div class="cred-item">THE DULLAHAN'S HEAD — Who really tried. It tried so hard.</div>
+      <div class="cred-sec">DEDICATION</div>
+      <div class="cred-ded">"To everyone who has ever said 'just one more floor'<br>at 2am on a Tuesday. This one's for you."<br>— B Srinivasa Ranganath</div>
+      <div class="cred-err">[INTERNAL ERROR: CREDITS TOO WHOLESOME] — END OF FILE — [PRESS START TO IGNORE]</div>
+      <button class="cred-back" onclick="closeCredits()">[ BACK TO HOME ]</button>
+    </div>
+  </div>
+
+  <!-- CUTSCENE BAR (rendered over the main canvas) -->
+  <div id="csbar" style="display:none">
+    <canvas id="cs-port" width="80" height="80"></canvas>
+    <div class="cs-txt-wrap">
+      <div id="cs-spk"></div>
+      <div id="cs-txt"></div>
+      <div id="cs-adv"></div>
+    </div>
+  </div>
+  <button id="cs-skip-btn" style="display:none" onclick="skipCutscene()">[ SKIP ]</button>
+  <div class="cs-panel-info" id="cs-panel-info" style="display:none"></div>
+
   <!-- HOME PAGE -->
   <div id="home" style="display:none">
     <div id="hmenu">
@@ -437,6 +537,7 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;background:#cc2222;bo
         <button class="hbtn" id="hbtn-play" onclick="startGame()">▶  NEW GAME</button>
         <button class="hbtn" onclick="openSettings('home')">⚙  SETTINGS</button>
         <button class="hbtn" id="hbtn-hm" onclick="toggleHard()">☠  HARD MODE: OFF</button>
+        <button class="hbtn" onclick="showCredits()">★  CREDITS</button>
       </div>
       <div class="h-divider"></div>
       <div id="h-ver">WASD / ARROWS TO MOVE · BUMP ENEMIES TO FIGHT · TALK TO NPCs<br>v2.1 · BUILT ON THE RUINS OF SANITY · GOAT CONTENT PRESENT</div>
@@ -444,7 +545,7 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;background:#cc2222;bo
   </div>
 
   <!-- PAUSE -->
-  <div id="pause" class="ov" style="display:none">
+  <div id="pause" style="display:none;position:absolute;inset:0;z-index:70;background:rgba(2,0,4,.9);flex-direction:column;justify-content:center;align-items:center;gap:10px">
     <div id="p-box">
       <div id="p-title">// PAUSED //</div>
       <div id="p-quip">"Taking a break? Understandable. I'll be here."</div>
@@ -459,7 +560,7 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;background:#cc2222;bo
   </div>
 
   <!-- SETTINGS -->
-  <div id="settings" class="ov" style="display:none">
+  <div id="settings" style="display:none;position:absolute;inset:0;z-index:75;background:rgba(2,0,4,.97);flex-direction:column;align-items:center;overflow-y:auto;padding:16px 12px;gap:0">
     <div id="stg-box">
       <div id="stg-hdr">⚙ SETTINGS</div>
       <div class="stg-cols">
@@ -766,7 +867,7 @@ function genFloor(fi){
   const bd=cfg.boss;
   const bhp=Math.round(bd.hp*hm);
   ents.push({t:bd.t,x:bsx-1,y:bsy,hp:bhp,mhp:bhp,atk:bd.atk+(G.hardMode?4:0),def:bd.def,
-    xp:bd.xp,gold:bd.gold,n:bd.n,alive:!G.bossDefeated[fi],animX:0,animY:0,ws:0,hf:0,nm:999999,mv:0,boss:true,skipTurn:false});
+    xp:bd.xp,gold:bd.gold,n:bd.n,alive:!G.bossDefeated[fi],animX:0,animY:0,ws:0,hf:0,nm:999999,mv:0,boss:true,skipTurn:false,locked:!G.bossDefeated[fi]});
   return{m,ents,w,h,swx,swy};
 }
 
@@ -798,6 +899,19 @@ const DLG={
   ],
   secret:[
     {s:'GLITCH-MERC',t:"Oh hello. A SECRET ROOM. I found it. The game HIDES things and I FOUND them. I feel genuinely alive right now."}
+  ],
+  warden_awaken:[
+    {s:'WARDEN SLIME',t:'...THREAT LEVEL MAXIMUM... DORMANCY PROTOCOL... TERMINATED... INITIATING BOSS SEQUENCE...'},
+    {s:'GLITCH-MERC',t:"Oh. OH. It was ASLEEP. The boss was DORMANT this whole time. That's actually good game design. Terrifying, but genuinely good."}
+  ],
+  dullahan_awaken:[
+    {s:"DULLAHAN'S HEAD",t:"The lesser threats have been eliminated. Our turn now. BODY — ENGAGE."},
+    {s:"DULLAHAN'S BODY",t:"*begins engaging*"},
+    {s:'GLITCH-MERC',t:"The head gave orders and the body actually listened this time. I'm not sure if that's better or worse."}
+  ],
+  morgana_awaken:[
+    {s:'MORGANA',t:"You've carved through everything I sent. Fine. No more proxies. No more guards. YOU deal with ME."},
+    {s:'GLITCH-MERC',t:"Finally. I've been walking through your dungeon for three floors. I have OPINIONS about the interior design."}
   ],
   warden_intro:[
     {s:'WARDEN SLIME',t:"INTRUDER DETECTED. INITIATING... TERMINATION... SEQUENCE—"},
@@ -1324,7 +1438,10 @@ function tryMove(dx,dy){
     if(t===TW){showQuip('wall');return;}
     if(t===TSW){discoverSecret(nx,ny);return;}
     const e=G.ents.find(e=>e.alive&&e.x===nx&&e.y===ny);
-    if(e){initCombat(e);return;}
+    if(e){
+      if(e.boss&&e.locked){addMsg('Defeat all enemies to challenge the boss!','boss');doShake(2,150);showQuip('wall');return;}
+      initCombat(e);return;
+    }
     G.pl.animX=(G.pl.x-nx)*TS;G.pl.animY=(G.pl.y-ny)*TS;
     G.pl.x=nx;G.pl.y=ny;G.pl.ws=(G.pl.ws+1)%4;SFX.step();updCam();
     discoverAround(nx,ny);
@@ -1381,6 +1498,14 @@ function buyItem(id){
 function closeShop(){document.getElementById('shop').style.display='none';G.gs='explore';}
 
 function enterDungeon(){
+  if(!G._armyCutDone){
+    G._armyCutDone=true;
+    startCutscene('army_threat',()=>{_doEnterDungeon();});
+    return;
+  }
+  _doEnterDungeon();
+}
+function _doEnterDungeon(){
   showQuip('enter');G.mode='dungeon';G.explored=new Set();
   const r=genFloor(0);G.dmap=r.m;G.mw=r.w;G.mh=r.h;G.ents=r.ents;
   updCam();G.camRX=G.cam.x*TS;G.camRY=G.cam.y*TS;G.pl.animX=0;G.pl.animY=0;
@@ -1637,6 +1762,7 @@ function combatWin(){
   addMsg(e.n+' defeated! +'+e.xp+' XP','xp');gainXP(e.xp);
   if(Math.random()<.38){G.pl.chimi++;addMsg('Dropped chimichanga! 🌮','item');}
   updUI();document.getElementById('cs').style.display='none';G.gs='explore';G.ce=null;
+  checkBossUnlock();
 }
 
 // ═══════════════════════════════════════════
@@ -1840,6 +1966,12 @@ function renderHUD(){
   // Floor
   const fl=G.mode==='village'?'GLITCH-HOLM':DFLOORS[G.floor].name;
   cx.textAlign='right';cx.fillStyle='#cc4422';cx.fillText(fl,950,32);cx.textAlign='left';
+  if(G.mode==='dungeon'){
+    const alive=G.ents.filter(e=>e.alive&&!e.boss).length;
+    const boss=G.ents.find(e=>e.boss&&e.alive);
+    if(alive>0&&boss?.locked){cx.fillStyle='rgba(0,0,0,.55)';cx.fillRect(0,47,280,14);cx.fillStyle='#ff4422';cx.fillText('⚔ '+alive+' ENEM'+(alive===1?'Y':'IES')+' REMAINING · BOSS LOCKED',6,57);}
+    else if(boss&&!boss.locked&&!G.bossDefeated[G.floor]){cx.fillStyle='rgba(0,0,0,.55)';cx.fillRect(0,47,220,14);cx.fillStyle='#ffaa00';cx.fillText('★ BOSS AWAKENED — FIND IT',6,57);}
+  }
   // Status effects row
   let sbx=460;
   if(G.poison>0){cx.fillStyle='#33cc33';cx.fillText('☠PSN',sbx,44);sbx+=60;}
@@ -1896,8 +2028,23 @@ function toggleHard(){
 // ═══════════════════════════════════════════
 // MAIN RENDER
 // ═══════════════════════════════════════════
+function renderCutscene(now){
+  if(!CS2)return;
+  const panel=CS2.panels[CS2.pi];
+  const elapsed=now-CS2.tStart;
+  const t=Math.min(1,elapsed/(panel.dur||4000));
+  // Clear
+  cx.fillStyle='#050001';cx.fillRect(0,0,960,540);
+  // Call panel draw fn
+  if(panel.draw)panel.draw(cx,now,t);
+  // Fade in/out
+  if(elapsed<300){cx.fillStyle=`rgba(0,0,0,${(1-elapsed/300).toFixed(2)})`;cx.fillRect(0,0,960,540);}
+  if(CS2.txtDone&&elapsed>panel.dur-350){const fa=Math.min(1,(elapsed-(panel.dur-350))/350);cx.fillStyle=`rgba(0,0,0,${fa.toFixed(2)})`;cx.fillRect(0,0,960,540);}
+}
 function render(now){
   if(G.gs==='title'){renderTitle(now);return;}
+  if(G.gs==='cutscene'){renderCutscene(now);return;}
+  if(G.gs==='home'||G.gs==='paused'||G.gs==='gameover'||G.gs==='ending'){cx.fillStyle='#050001';cx.fillRect(0,0,960,540);return;}
   const fi=G.floor;
   cx.fillStyle=G.mode==='village'?'#0e0a06':DFLOORS[fi].bg;cx.fillRect(0,0,960,540);
   cx.save();
@@ -1987,6 +2134,7 @@ function gameLoop(now){
   updAnim(dt);
   if(G.gs==='explore'&&G.mode==='dungeon')
     for(const e of G.ents)if(e.alive&&!e.boss&&e.mv>0&&now>=e.nm){moveEnemy(e,now);if(G.gs==='explore')e.nm=now+e.mv+ri(-100,100);}
+  if(G.gs==='cutscene')tickCutscene(now);
   tickBubble();render(now);
 }
 
@@ -1997,6 +2145,7 @@ const DIRS={ArrowUp:[0,-1],ArrowDown:[0,1],ArrowLeft:[-1,0],ArrowRight:[1,0],
   w:[0,-1],s:[0,1],a:[-1,0],d:[1,0],W:[0,-1],S:[0,1],A:[-1,0],D:[1,0]};
 document.addEventListener('keydown',ev=>{
   if(G.gs==='home'){if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();startGame();}return;}
+  if(G.gs==='cutscene'){if(ev.key==='Enter'||ev.key===' '||ev.key==='Escape'){ev.preventDefault();if(CS2?.txtDone)advCutscene();else{CS2.txtI=(CS2.panels[CS2.pi].text||'').length;CS2.txtDone=true;document.getElementById('cs-adv').textContent='▶ CLICK / ENTER';document.getElementById('cs-txt').textContent=CS2.panels[CS2.pi].text||'';}return;}}
   if(ev.key==='Escape'){
     if(G.gs==='settings'){closeSettings();return;}
     if(G.gs==='paused'){resumeGame();return;}
@@ -2068,7 +2217,7 @@ function initGame(){
     ents:[],dmap:[],mw:0,mh:0,
     cam:{x:0,y:0},camRX:0,camRY:0,
     parts:[],shakeAmt:0,shakeEnd:0,
-    bossDefeated:[false,false,false],npcMet:{anvil:false,data:false,goat:false},
+    bossDefeated:[false,false,false],npcMet:{anvil:false,data:false,goat:false},_armyCutDone:false,
     secretFound:[false,false,false],explored:new Set(),
     ce:null,cTurn:'p',cTn:0,dashReady:false,bPhase:1,glitchMode:false,corrupt:0,poison:0,
     dLines:[],dIdx:0,dFull:'',dChar:0,dTimer:null,dCb:null,
@@ -2196,8 +2345,10 @@ function showHome(){
 }
 function startGame(){
   document.getElementById('home').style.display='none';
-  document.getElementById('title').style.display='flex';
-  G.gs='title';
+  startCutscene('village_entry',()=>{
+    document.getElementById('title').style.display='flex';
+    G.gs='title';
+  });
 }
 
 // ═══════════════════════════════════════════
@@ -2245,22 +2396,26 @@ function quitToHome(){
 
 
 // ═══════════════════════════════════════════
-// INTRO + CREDITS
+// CREATOR INTRO
 // ═══════════════════════════════════════════
-let _introTimer=null;
-function runIntro(){
-  const el=document.getElementById('intro');
-  el.style.display='flex';el.style.opacity='1';el.style.transition='';
-  el.addEventListener('click',skipIntro,{once:true});
-  _introTimer=setTimeout(skipIntro,4000);
+let _creatorDone=false;
+function skipCreator(){
+  if(_creatorDone)return;_creatorDone=true;
+  const el=document.getElementById('creator');
+  el.classList.add('fade');
+  setTimeout(()=>{el.style.display='none';showHome();},650);
 }
-function skipIntro(){
-  if(_introTimer){clearTimeout(_introTimer);_introTimer=null;}
-  const el=document.getElementById('intro');
-  el.style.transition='opacity .55s';el.style.opacity='0';
-  setTimeout(()=>{el.style.display='none';showHome();},560);
+function runCreator(){
+  const el=document.getElementById('creator');
+  if(!el){showHome();return;}
+  el.style.display='flex';el.style.opacity='1';
+  setTimeout(skipCreator,3800);
 }
-function openCredits(){
+
+// ═══════════════════════════════════════════
+// CREDITS
+// ═══════════════════════════════════════════
+function showCredits(){
   document.getElementById('home').style.display='none';
   document.getElementById('credits').style.display='flex';
 }
@@ -2269,7 +2424,305 @@ function closeCredits(){
   document.getElementById('home').style.display='flex';
 }
 
-document.fonts.ready.then(()=>{fitScreen();loadSTG();initGame();applyAllSTG();runIntro();});
+// ═══════════════════════════════════════════
+// BOSS UNLOCK
+// ═══════════════════════════════════════════
+function checkBossUnlock(){
+  if(G.mode!=='dungeon')return;
+  const alive=G.ents.filter(e=>e.alive&&!e.boss).length;
+  const boss=G.ents.find(e=>e.boss&&e.alive&&e.locked);
+  if(alive===0&&boss){
+    boss.locked=false;
+    G.lvlFlash=performance.now();
+    SFX.secret();doShake(4,400);
+    addMsg('ALL ENEMIES DEFEATED! THE BOSS AWAKENS!','boss');
+    const key=boss.t+'_awaken';
+    if(DLG[key]){
+      setTimeout(()=>{G.gs='dialogue';startDlg(key,()=>{G.gs='explore';});},500);
+    }
+  }
+}
+
+// ═══════════════════════════════════════════
+// CUTSCENE ENGINE
+// ═══════════════════════════════════════════
+let CS2=null;
+function startCutscene(id,cb){
+  const panels=SCENES[id];if(!panels){if(cb)cb();return;}
+  CS2={id,pi:0,panels,cb,tStart:performance.now(),txtI:0,txtDone:false,lastChar:0};
+  G.gs='cutscene';
+  document.getElementById('csbar').style.display='flex';
+  document.getElementById('cs-skip-btn').style.display='block';
+  document.getElementById('cs-panel-info').style.display='block';
+  loadCSPanel();
+}
+function loadCSPanel(){
+  if(!CS2)return;
+  const panel=CS2.panels[CS2.pi];
+  CS2.tStart=performance.now();CS2.txtI=0;CS2.txtDone=false;CS2.lastChar=performance.now();
+  const spk=panel.speaker||'NARRATOR';
+  document.getElementById('cs-spk').textContent=spk;
+  document.getElementById('cs-txt').textContent='';
+  document.getElementById('cs-adv').textContent='';
+  document.getElementById('cs-panel-info').textContent=(CS2.pi+1)+' / '+CS2.panels.length;
+  const pcv=document.getElementById('cs-port');const pc=pcv.getContext('2d');
+  pc.imageSmoothingEnabled=false;pc.fillStyle='#030001';pc.fillRect(0,0,80,80);
+  if(panel.portrait)drawPortrait(panel.speaker||'',pc,80);
+  SFX.talk();
+}
+function tickCutscene(now){
+  if(!CS2)return;
+  const panel=CS2.panels[CS2.pi];
+  const txt=panel.text||'';
+  if(!CS2.txtDone&&now-CS2.lastChar>26){
+    CS2.txtI=Math.min(CS2.txtI+1,txt.length);CS2.lastChar=now;
+    document.getElementById('cs-txt').textContent=txt.slice(0,CS2.txtI);
+    if(CS2.txtI%3===0)SFX.talk();
+    if(CS2.txtI>=txt.length){CS2.txtDone=true;document.getElementById('cs-adv').textContent='▶ CLICK / ENTER';}
+  }
+  if(!txt){CS2.txtDone=true;}
+  if(CS2.txtDone&&now-CS2.tStart>=(panel.dur||4000))advCutscene();
+}
+function advCutscene(){
+  if(!CS2)return;
+  CS2.pi++;
+  if(CS2.pi>=CS2.panels.length)endCutscene();
+  else loadCSPanel();
+}
+function endCutscene(){
+  document.getElementById('csbar').style.display='none';
+  document.getElementById('cs-skip-btn').style.display='none';
+  document.getElementById('cs-panel-info').style.display='none';
+  const cb=CS2?.cb;CS2=null;
+  G.gs='explore';
+  if(cb)cb();
+}
+function skipCutscene(){endCutscene();}
+
+// ═══════════════════════════════════════════
+// CUTSCENE DRAW HELPERS
+// ═══════════════════════════════════════════
+function csStars(c,now,n=60){
+  for(let i=0;i<n;i++){
+    const sx=(i*137.5)%960,sy=(i*83.7)%380+GY;
+    c.fillStyle=`rgba(255,220,180,${(Math.sin(now/600+i*.8)*.4+.5).toFixed(2)})`;
+    c.fillRect(sx,sy,1+(i%2),1+(i%3===0?1:0));
+  }
+}
+function csHills(c,col,yBase,segs=14,h=60){
+  for(let i=0;i<segs;i++){const x=i*(960/segs),w=960/segs+2,hh=h+Math.sin(i*1.4)*h*.6;c.fillStyle=col;c.fillRect(x,yBase-hh,w,hh+80);}
+}
+function csGround(c,y,col='#1a0a04'){c.fillStyle=col;c.fillRect(0,y,960,5);}
+function csTree(c,x,y,h,col='#1a2e10'){
+  c.fillStyle='#4a2808';c.fillRect(x+Math.floor(h*.15),y+h*.7,Math.floor(h*.1),Math.floor(h*.3));
+  c.fillStyle=col;c.fillRect(x,y+h*.3,h*.4,h*.4);c.fillRect(x+h*.05,y+h*.12,h*.3,h*.4);c.fillRect(x+h*.1,y,h*.2,h*.25);
+}
+function csTorch(c,x,y,now){
+  c.fillStyle='#4a2808';c.fillRect(x+2,y+6,4,10);
+  const fl=Math.sin(now/140+x*.1)*.15+.65;
+  c.fillStyle=`rgba(255,120,20,${fl.toFixed(2)})`;c.fillRect(x,y,8,8);
+  c.fillStyle=`rgba(255,200,50,${(fl*.6).toFixed(2)})`;c.fillRect(x+2,y-3,4,5);
+  c.fillStyle=`rgba(255,120,20,0.08)`;c.fillRect(x-4,y+6,16,18);
+}
+function csBldg(c,blds){
+  blds.forEach(([x,h,w])=>{
+    c.fillStyle='#1a1008';c.fillRect(x,GY+370-h,w,h);
+    c.fillStyle='#2a1a10';c.fillRect(x+Math.round(w*.35),GY+370-h-14,Math.round(w*.28),16);
+  });
+}
+
+// ═══════════════════════════════════════════
+// SCENE DEFINITIONS
+// ═══════════════════════════════════════════
+const BLDS=[[80,60,50],[200,50,60],[340,70,44],[460,55,50],[580,65,56],[700,50,48],[820,60,52]];
+const SCENES={
+
+  village_entry:[
+    {dur:4800,speaker:'NARRATOR',portrait:'',
+text:'SOMEWHERE IN A GLITCHING DIGITAL REALM. A LOADING SCREEN NOBODY ASKED FOR.',
+     draw(c,now,t){
+       c.fillStyle='#060308';c.fillRect(0,0,960,540);csStars(c,now,80);
+       csHills(c,'#0c1808',GY+385,14,65);csHills(c,'#0a1206',GY+405,10,40);csGround(c,GY+425,'#141008');
+       c.fillStyle='rgba(20,10,5,0.38)';c.fillRect(0,GY+415,960,85);
+       const lp=Math.min(1,t*1.1);
+       c.fillStyle='#1a0004';c.fillRect(200,GY+458,560,12);
+       c.fillStyle='#cc2222';c.fillRect(200,GY+458,Math.round(560*lp),12);
+       c.fillStyle='rgba(255,215,0,0.08)';c.fillRect(200,GY+458,Math.round(560*lp),12);
+       c.fillStyle='#664422';c.font='6px "Press Start 2P","Courier New"';
+       c.textAlign='center';c.fillText('LOADING KINGDOM OF OUROBOROS... '+Math.round(lp*100)+'%',480,GY+447);c.textAlign='left';
+     }},
+    {dur:5200,speaker:'GLITCH-MERC',portrait:'GLITCH-MERC',
+text:'"I wake up in a loading screen. Again. This is my life now. At least the kingdom is loading. Progress."',
+     draw(c,now,t){
+       c.fillStyle='#07030a';c.fillRect(0,0,960,540);csStars(c,now,55);
+       csHills(c,'#0e1a0c',GY+355,16,80);csHills(c,'#0a1208',GY+385,10,50);csGround(c,GY+405);
+       for(let i=0;i<5;i++)csTree(c,80+i*190,(i%2===0?GY+310:GY+335),60,'#1a2e12');
+       const mx=Math.round(-60+Math.min(t,.85)*520);
+       drawMerc(c,mx,GY+373,Math.floor(now/210)%4,true,null,now);
+     }},
+    {dur:5000,speaker:'NARRATOR',portrait:'',
+text:'THE VILLAGE OF GLITCH-HOLM. POPULATION: CONFUSED. ARCHITECTURE: INCONSISTENT.',
+     draw(c,now,t){
+       c.fillStyle='#060204';c.fillRect(0,0,960,540);csStars(c,now,38);
+       csHills(c,'#0c1008',GY+322,14,90);csGround(c,GY+372,'#14100a');
+       csBldg(c,BLDS);
+       [120,270,450,610,740].forEach(tx=>csTorch(c,tx,GY+308,now));
+       const pg=(Math.sin(now/320)*.14+.22).toFixed(2);
+       c.fillStyle=`rgba(200,0,200,${pg})`;c.fillRect(453,GY+338,54,42);
+       c.fillStyle='rgba(255,100,255,0.42)';c.fillRect(466,GY+343,28,37);
+       for(let i=0;i<4;i++){const ang=now/420+i*1.57,r=24+Math.sin(now/280+i)*8;c.fillStyle='rgba(255,0,255,0.7)';c.fillRect(480+Math.cos(ang)*r,GY+360+Math.sin(ang)*r*.5,2,2);}
+     }},
+    {dur:4800,speaker:'GLITCH-MERC',portrait:'GLITCH-MERC',
+text:'"Pixel buildings. Torchlight. A portal that shouldn\'t be there. Yep. Quest. I\'m on a quest."',
+     draw(c,now,t){
+       c.fillStyle='#060204';c.fillRect(0,0,960,540);csStars(c,now,32);
+       csHills(c,'#0c1008',GY+322,14,90);csGround(c,GY+372,'#14100a');
+       csBldg(c,BLDS);[120,270,450,610,740].forEach(tx=>csTorch(c,tx,GY+308,now));
+       const bob=Math.sin(now/420)*.9;drawMerc(c,454,GY+340+bob,0,false,null,now);
+       if(Math.floor(now/480)%2===0){c.fillStyle='#cc4422';c.font='18px monospace';c.textAlign='center';c.fillText('→',540,GY+362);c.textAlign='left';}
+     }}
+  ],
+
+  army_threat:[
+    {dur:4800,speaker:'NARRATOR',portrait:'',
+text:'THREE DAYS LATER. BEYOND THE PORTAL. MORGANA\'S IRON GUARD BEGINS ITS MARCH.',
+     draw(c,now,t){
+       c.fillStyle='#0a0002';c.fillRect(0,0,960,540);
+       for(let i=0;i<50;i++){const sx=(i*97)%960,sy=(i*53)%220+GY;c.fillStyle='rgba(180,0,0,0.3)';c.fillRect(sx,sy,2+(i%3),2);}
+       if(Math.floor(now/700)%4===0){c.strokeStyle='rgba(255,80,80,0.55)';c.lineWidth=2;c.beginPath();const lx=ri(80,880);c.moveTo(lx,GY);c.lineTo(lx+ri(-40,40),GY+130);c.lineTo(lx+ri(-60,60),GY+280);c.stroke();}
+       csHills(c,'#1a0004',GY+345,12,120);csGround(c,GY+400,'#200005');
+       for(let i=0;i<5;i++){c.fillStyle='#0d0002';c.fillRect(110+i*162,GY+195,72,210);c.fillRect(120+i*162,GY+175,52,28);c.fillStyle='rgba(200,0,0,0.15)';c.fillRect(130+i*162,GY+200,32,40);}
+     }},
+    {dur:5800,speaker:'DATA-MOTHER',portrait:'DATA-MOTHER',
+text:'"Morgana\'s Iron Guard marches on Glitch-Holm. They number in the hundreds. They delete everything they touch."',
+     draw(c,now,t){
+       c.fillStyle='#080001';c.fillRect(0,0,960,540);
+       csHills(c,'#160003',GY+385,16,65);csGround(c,GY+402,'#180003');
+       const offset=(now/7)%64;
+       const tmp=document.createElement('canvas');tmp.width=32;tmp.height=32;
+       const tc=tmp.getContext('2d');tc.imageSmoothingEnabled=false;
+       for(let row=0;row<3;row++){
+         for(let col=0;col<15;col++){
+           const ex=col*66-offset,ey=GY+308+row*38;
+           if(ex<-40||ex>980)continue;
+           tc.clearRect(0,0,32,32);
+           drawEnemy(tc,row===1?'damned':'ironguard',0,0,{ws:Math.floor(now/280+col)%4,animX:5,animY:0,hf:0},now);
+           c.drawImage(tmp,ex,ey,32,32);
+         }
+       }
+       c.fillStyle='rgba(200,0,0,0.14)';c.fillRect(0,GY+278,960,185);
+       const ms=(Math.sin(now/480)*.1+.24).toFixed(2);
+       c.fillStyle=`rgba(150,0,150,${ms})`;c.fillRect(380,GY+18,200,180);
+     }},
+    {dur:5200,speaker:'ANVIL-7',portrait:'ANVIL-7',
+text:'"My forge-arm cannot stop them alone. The village will fall within days. You are our only hope, stranger."',
+     draw(c,now,t){
+       c.fillStyle='#060104';c.fillRect(0,0,960,540);csStars(c,now,22);
+       csBldg(c,BLDS);csGround(c,GY+372,'#14100a');
+       [100,240,380,500,640,760].forEach((tx,i)=>{
+         const fl=Math.abs(Math.sin(now/55+i*1.9))*.75+.12;
+         c.fillStyle=`rgba(255,120,20,${fl.toFixed(2)})`;c.fillRect(tx,GY+298,8,11);
+         c.fillStyle=`rgba(255,200,50,${(fl*.5).toFixed(2)})`;c.fillRect(tx+2,GY+293,4,7);
+       });
+       const co=(now/3.5)%420;
+       c.fillStyle='rgba(25,0,6,0.52)';
+       c.fillRect(580-co,GY+38,420,65);c.fillRect(650-co,GY+18,340,52);c.fillRect(750-co,GY+58,280,48);
+       c.fillStyle='rgba(200,0,0,0.08)';c.fillRect(0,GY,960,GH);
+     }},
+    {dur:5500,speaker:'GLITCH-MERC',portrait:'GLITCH-MERC',
+text:'"Nobody threatens a village I just walked into. That\'s not how this works. Katanas out. Portal time. Maximum effort incoming."',
+     draw(c,now,t){
+       c.fillStyle='#060104';c.fillRect(0,0,960,540);csStars(c,now,28);
+       const pg=(Math.sin(now/220)*.22+.38).toFixed(2);
+       c.fillStyle=`rgba(200,0,200,${pg})`;c.fillRect(428,GY+275,104,140);
+       c.fillStyle='rgba(255,100,255,0.52)';c.fillRect(448,GY+282,64,133);
+       for(let i=0;i<8;i++){const ang=now/360+i*.785,r=52+Math.sin(now/280+i)*14;c.fillStyle='rgba(255,0,255,0.72)';c.fillRect(480+Math.cos(ang)*r,GY+350+Math.sin(ang)*r*.55,3,3);}
+       const mx=Math.round(160+Math.min(t,.9)*230);
+       drawMerc(c,mx,GY+340,Math.floor(now/170)%4,true,null,now);
+       if(Math.floor(now/460)%2===0){c.fillStyle='#dd4422';c.font='18px monospace';c.textAlign='center';c.fillText('→→',400,GY+358);c.textAlign='left';}
+     }}
+  ],
+
+  floor2_entry:[
+    {dur:4200,speaker:'NARRATOR',portrait:'',
+text:'FLOOR TWO. THE HALL OF THE DAMNED. THE GLITCH GOES DEEPER.',
+     draw(c,now,t){
+       c.fillStyle='#040608';c.fillRect(0,0,960,540);csStars(c,now,30);
+       csHills(c,'#080e14',GY+360,14,80);csGround(c,GY+400,'#0c1420');
+       for(let i=0;i<6;i++){const x=80+i*155;c.fillStyle='#0a1018';c.fillRect(x,GY+180,48,220);c.fillStyle='rgba(100,150,255,0.12)';c.fillRect(x+12,GY+200,24,30);}
+       c.fillStyle='rgba(100,150,255,0.06)';c.fillRect(0,GY,960,GH);
+     }},
+    {dur:4500,speaker:'GLITCH-MERC',portrait:'GLITCH-MERC',
+text:'"Darker. Bluer. Spookier. Same enemies with different hats. Floor two: the \'ran out of tile budget\' floor. Classic."',
+     draw(c,now,t){
+       c.fillStyle='#040608';c.fillRect(0,0,960,540);csStars(c,now,25);
+       csHills(c,'#080e14',GY+360,14,80);csGround(c,GY+400,'#0c1420');
+       const tmp=document.createElement('canvas');tmp.width=32;tmp.height=32;
+       const tc=tmp.getContext('2d');tc.imageSmoothingEnabled=false;
+       [[200,GY+340,'damned'],[380,GY+335,'scout'],[600,GY+340,'damned'],[780,GY+338,'scout']].forEach(([x,y,t2])=>{
+         tc.clearRect(0,0,32,32);drawEnemy(tc,t2,0,0,{ws:0,animX:0,animY:0,hf:0},now);c.drawImage(tmp,x,y,32,32);
+       });
+       const bob=Math.sin(now/380)*.8;drawMerc(c,465,GY+368+bob,0,false,null,now);
+       c.fillStyle='rgba(100,150,255,0.07)';c.fillRect(0,GY,960,GH);
+     }}
+  ],
+
+  floor3_approach:[
+    {dur:4800,speaker:'NARRATOR',portrait:'',
+text:'FLOOR THREE. THE WEAVER\'S SPIRE. THE LOOP ENDS HERE. OR THE WARRIOR DOES.',
+     draw(c,now,t){
+       c.fillStyle='#060008';c.fillRect(0,0,960,540);
+       c.fillStyle='rgba(100,0,120,0.14)';c.fillRect(0,GY,960,GH);csStars(c,now,55);
+       const sw=84,sh=370,sx=438;
+       c.fillStyle='#0e0016';c.fillRect(sx,GY+45,sw,sh);
+       c.fillStyle='#1a0028';c.fillRect(sx-22,GY+45,sw+44,32);c.fillRect(sx-10,GY+30,sw+20,20);
+       for(let i=0;i<7;i++){const wy=GY+78+i*48;const wg=(Math.sin(now/280+i)*.22+.42).toFixed(2);c.fillStyle=`rgba(255,0,255,${wg})`;c.fillRect(sx+28,wy,22,14);}
+       c.fillStyle='rgba(180,0,200,0.32)';c.fillRect(sx+4,GY+45,2,sh);c.fillRect(sx+sw-6,GY+45,2,sh);
+       for(let i=0;i<5;i++){c.fillStyle='rgba(180,0,200,0.14)';c.fillRect(sx+8+i*14,GY+78+i*42,10,1);}
+       const mg=(Math.sin(now/190)*.22+.42).toFixed(2);
+       c.fillStyle=`rgba(220,0,220,${mg})`;c.fillRect(sx-32,GY+28,sw+64,42);
+     }},
+    {dur:5000,speaker:'MORGANA',portrait:'MORGANA',
+text:'"You reached the top. I am... impressed. And furious. Mostly furious. ALSO impressed. Begrudgingly."',
+     draw(c,now,t){
+       c.fillStyle='#040006';c.fillRect(0,0,960,540);
+       const pulse=(Math.sin(now/230)*.16+.26).toFixed(2);
+       c.fillStyle=`rgba(160,0,180,${pulse})`;c.fillRect(0,GY,960,GH);
+       csStars(c,now,32);
+       const tmp=document.createElement('canvas');tmp.width=128;tmp.height=128;
+       const tc=tmp.getContext('2d');tc.imageSmoothingEnabled=false;
+       drawBoss(tc,'morgana',14,8,3,now,null);c.drawImage(tmp,0,0,128,128,348,GY+110,264,264);
+       c.fillStyle=`rgba(255,0,255,${(+pulse*.38).toFixed(2)})`;c.fillRect(295,GY+100,370,290);
+       c.fillStyle='rgba(180,0,180,0.18)';
+       for(let i=0;i<9;i++){c.fillRect(i*115,GY+195,2,GH*.65);c.fillRect(0,GY+55+i*48,960,1);}
+       const bob=Math.sin(now/300)*.8;drawMerc(c,90,GY+360+bob,0,false,null,now);
+       if(Math.floor(now/520)%2===0){c.fillStyle='#cc4422';c.font='16px monospace';c.textAlign='center';c.fillText('VS',480,GY+380);c.textAlign='left';}
+     }}
+  ]
+};
+
+// ═══════════════════════════════════════════
+// CUTSCENE RENDERER (on main canvas)
+// ═══════════════════════════════════════════
+function renderCutscene(now){
+  if(!CS2)return;
+  const panel=CS2.panels[CS2.pi];
+  const elapsed=now-CS2.tStart;
+  const t=Math.min(1,elapsed/Math.max(1,panel.dur||4000));
+  cx.fillStyle='#050001';cx.fillRect(0,0,960,540);
+  if(panel.draw)panel.draw(cx,now,t);
+  // HUD bar stays on top
+  renderHUD();
+  // Fade in
+  if(elapsed<320){cx.fillStyle=`rgba(0,0,0,${(1-elapsed/320).toFixed(2)})`;cx.fillRect(0,0,960,540);}
+  // Fade out
+  const fdur=panel.dur||4000;
+  if(CS2.txtDone&&elapsed>fdur-380){const fa=Math.min(1,(elapsed-(fdur-380))/380);cx.fillStyle=`rgba(0,0,0,${fa.toFixed(2)})`;cx.fillRect(0,0,960,540);}
+  // CRT
+  if(STG.crt){cx.fillStyle='rgba(0,0,0,.03)';for(let y=0;y<540;y+=3)cx.fillRect(0,y,960,1);}
+}
+
+document.fonts.ready.then(()=>{fitScreen();loadSTG();initGame();applyAllSTG();runCreator();});
 </script>
 </body>
 </html>
