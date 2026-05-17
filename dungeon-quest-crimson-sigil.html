@@ -151,7 +151,7 @@ body{background:#050001;min-height:100vh;display:flex;justify-content:center;ali
 .h-save-row{font-size:5px;color:#3a1808;background:#06000a;border:1px solid #2a0010;padding:5px 8px;display:flex;justify-content:space-between;align-items:center}
 .h-save-row.has-save{border-color:#662200;color:#aa5533}
 .h-save-row .save-meta{color:#552010}
-#best-runs{font-size:5px;color:#2a1010;text-align:center;line-height:1.9;width:340px}
+#best-runs{font-size:5px;color:#aa5533;text-align:center;line-height:1.9;width:340px}
 /* ═══ SKILL TREE ═══ */
 #skilltree{background:rgba(0,0,0,.97);z-index:66;flex-direction:column;justify-content:center;align-items:center;gap:12px;padding:22px}
 .sk-title{font-size:8px;color:#ffcc00;text-align:center;letter-spacing:2px;margin-bottom:4px}
@@ -241,7 +241,7 @@ body{background:#050001;min-height:100vh;display:flex;justify-content:center;ali
 .hbtn:hover{background:rgba(30,0,5,.9);border-color:#dd3322;color:#fff;
             box-shadow:0 0 18px rgba(200,20,0,.3);transform:translateX(3px)}
 .hbtn.active{border-color:#ff8844;color:#ffcc44}
-#h-ver{font-size:5px;color:#261012;letter-spacing:1px;margin-top:22px;text-align:center;line-height:2}
+#h-ver{font-size:5px;color:#885544;letter-spacing:1px;margin-top:22px;text-align:center;line-height:2}
 /* ═══ PAUSE ═══ */
 #pause{background:rgba(2,0,4,.9);z-index:70;flex-direction:column;
        justify-content:center;align-items:center;gap:10px;
@@ -259,7 +259,7 @@ body{background:#050001;min-height:100vh;display:flex;justify-content:center;ali
 .pbtn.danger{border-color:#441100;color:#884422}
 .pbtn.danger:hover{border-color:#ff6600;color:#ffaa44}
 /* ═══ SETTINGS ═══ */
-#settings{background:rgba(2,0,4,.97);z-index:75;flex-direction:column;
+#settings{background:rgba(2,0,4,.97);z-index:86;flex-direction:column;
           align-items:center;overflow-y:auto;padding:16px 12px;gap:0}
 #stg-box{background:#050001;border:2px solid #660010;padding:16px 22px;
          width:760px;max-height:500px;overflow-y:auto}
@@ -629,17 +629,15 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;background:#cc2222;bo
         <div id="h-t3">THE &apos;UNPATCHABLE&apos; EDITION</div>
       </div>
       <div class="h-divider"></div>
-      <div id="h-saves"></div>
       <div id="h-btns">
         <button class="hbtn" id="hbtn-cont" onclick="continueRun()" style="display:none;border-color:#225500;color:#44cc44">▶▶ CONTINUE RUN</button>
         <button class="hbtn" id="hbtn-play" onclick="startGame()">▶  NEW GAME</button>
         <button class="hbtn" onclick="openInv()" id="hbtn-inv" style="display:none;border-color:#553300;color:#aa7722">◈  INVENTORY</button>
         <button class="hbtn" onclick="openSettings('home')">⚙  SETTINGS</button>
-        <button class="hbtn" id="hbtn-hm" onclick="toggleHard()">☠  HARD MODE: OFF</button>
       </div>
       <div class="h-divider"></div>
       <div id="best-runs"></div>
-      <div id="h-ver">WASD / ARROWS TO MOVE · BUMP ENEMIES TO FIGHT · TALK TO NPCs<br>v2.1 · BUILT ON THE RUINS OF SANITY · GOAT CONTENT PRESENT</div>
+      <div id="h-ver">WASD / ARROWS · BUMP TO FIGHT · TALK TO NPCs · PRESS I FOR INVENTORY<br>v2.1 &middot; BUILT ON THE RUINS OF SANITY &middot; GOAT CONTENT PRESENT</div>
     </div>
   </div>
 
@@ -856,7 +854,35 @@ const SFX={
   buy:()=>{au(523,.06,'sine',.1);setTimeout(()=>au(784,.1,'sine',.1),70)},
   poison:()=>au(150,.12,'sawtooth',.1,80),
   talk:()=>au(440,.02,'square',.04),
-  torch:()=>au(ri(180,220),.04,'sawtooth',.04)
+  torch:()=>au(ri(180,220),.04,'sawtooth',.04),
+  // ── UI / Menu ──
+  menuTick:()=>au(1760,.022,'square',.048),               // tiny CRT click (navigation)
+  menuHov:()=>au(2400,.016,'sine',.032),                  // hover blip (very subtle)
+  menuConf:()=>{au(660,.04,'sine',.09);setTimeout(()=>au(880,.06,'sine',.08),44);}, // confirm
+  menuBack:()=>au(330,.05,'sawtooth',.07,180),            // back/cancel (pitch-drop)
+  menuBlip:()=>[0,32,64].forEach((d,i)=>setTimeout(()=>au(560+i*180,.02,'sine',.028),d)), // appear pop
+  crtTick:()=>au(700+ri(0,500),.011,'square',.022),       // CRT screen tick
+  pauseIn:()=>{                                           // pause thump + tape-stop
+    au(72,.22,'sine',.28);                                // deep thump
+    setTimeout(()=>au(1100,.055,'square',.038,240),85);   // CRT off click
+    setTimeout(()=>{au(420,.09,'sawtooth',.12,60);},160); // tape-wind down
+  },
+  pauseOut:()=>{                                          // resume whoosh + snap
+    au(180,.06,'sawtooth',.08,1600);                      // sweep up
+    setTimeout(()=>au(880,.04,'sine',.055),40);
+    setTimeout(()=>au(1320,.03,'square',.04),80);         // glitch snap
+  },
+  charStinger:(idx)=>{                                    // per-character intro hit
+    const stingers=[
+      ()=>{[260,330,440].forEach((f,i)=>setTimeout(()=>au(f,.14,'sawtooth',.16),i*48));}, // Merc: aggressive
+      ()=>{au(110,.22,'triangle',.28);setTimeout(()=>au(165,.14,'triangle',.18),22);},    // Sentinel: clang
+      ()=>{au(1100,.05,'square',.08,220);setTimeout(()=>au(660,.06,'square',.09,330),35);},// Rogue: swift
+      ()=>{[440,554,659,880].forEach((f,i)=>setTimeout(()=>au(f,.16,'sine',.22),i*28));}, // Witch: chord
+    ];
+    if(stingers[idx])stingers[idx]();
+  },
+  uiSlide:()=>{au(600,.035,'sine',.05,900);},             // panel slide in
+  secretUnlock:()=>[200,400,800,1600,800,400,200].forEach((f,i)=>setTimeout(()=>au(f,.09,'sine',.12),i*60)),
 };
 
 // ═══════════════════════════════════════════
@@ -1348,6 +1374,201 @@ const AE={
   },
 
   setMasterVol(pct){if(this.master)this.master.gain.value=(pct/80)*.7;},
+
+  // ══════════════════════════════════════════
+  // MENU MUSIC SYSTEM
+  // ══════════════════════════════════════════
+  _menuNodes2:[],_menuTimers2:[],_idleTimer:null,_idleActive:false,
+  _prePauseFilter:8000,_prePauseAmbVol:0,_prePauseMusVol:0,
+  _menuTheme:'default',// 'default'|'dark'|'corrupted'
+
+  startMenuMusic(){
+    if(!this._ac())return;this.init();
+    this._stopMenuMusic();
+    // Determine theme from save data
+    let theme='default';
+    try{
+      const bests=JSON.parse(localStorage.getItem('dq_bests')||'[]');
+      const ach=JSON.parse(localStorage.getItem('dq_ach')||'[]');
+      if(ach.includes('corruption_lord'))theme='corrupted';
+      else if(bests.length>=3)theme='dark';
+    }catch(e){}
+    this._menuTheme=theme;
+    this._runMenuPad(theme);
+    this._runMenuMelody(theme);
+    this._fade(this.ambG,(STG.vol/80)*.55,2.5);
+    this._schedMenuIdle();
+  },
+
+  _stopMenuMusic(){
+    this._menuNodes2.forEach(n=>{try{n.stop();}catch(e){}});this._menuNodes2=[];
+    this._menuTimers2.forEach(t=>{clearTimeout(t);clearInterval(t);});this._menuTimers2=[];
+    if(this._idleTimer){clearTimeout(this._idleTimer);this._idleTimer=null;}
+    this._idleActive=false;
+  },
+
+  _mn2(n){this._menuNodes2.push(n);return n;},
+
+  _runMenuPad(theme){
+    if(!this._ac())return;
+    const t=AC.currentTime;
+    // Layered pad: 3 oscillators, slow beating
+    const freqs=theme==='corrupted'?[65,77,92]:theme==='dark'?[55,65,82]:[55,69,82];
+    freqs.forEach((f,i)=>{
+      const o=AC.createOscillator();o.type='sine';
+      o.frequency.value=f*(1+(i%2?-.004:.004));// slight detune per layer
+      const lfo=AC.createOscillator();lfo.frequency.value=0.04+i*0.015;
+      const lg=AC.createGain();lg.gain.value=f*0.007;lfo.connect(lg);lg.connect(o.frequency);
+      const g=AC.createGain();g.gain.value=0.022+i*0.006;
+      o.connect(g);g.connect(this.ambG);
+      o.start(t);lfo.start(t);this._mn2(o);this._mn2(lfo);
+    });
+    // Corrupted: add noise crackle on top
+    if(theme==='corrupted'){
+      const sz=AC.sampleRate*2,buf=AC.createBuffer(1,sz,AC.sampleRate);
+      const d=buf.getChannelData(0);for(let i=0;i<sz;i++)d[i]=Math.random()*2-1;
+      const n=AC.createBufferSource();n.buffer=buf;n.loop=true;
+      const f=AC.createBiquadFilter();f.type='bandpass';f.frequency.value=180;f.Q.value=0.4;
+      const g=AC.createGain();g.gain.value=0.005;
+      n.connect(f);f.connect(g);g.connect(this.ambG);n.start(t);this._mn2(n);
+    }
+  },
+
+  _runMenuMelody(theme){
+    if(!this._ac())return;
+    // Pentatonic sequences per theme
+    const seqs={
+      default:[220,261,294,349,392,349,294,261],   // A C D F G F D C — warm
+      dark:   [220,247,277,330,369,330,277,220],    // A B C# E F# — melancholic
+      corrupted:[220,233,261,311,349,311,233,207],  // A Bb C Eb F — eerie
+    };
+    const notes=seqs[theme]||seqs.default;
+    const self=this;let ni=0;
+    const noteDur=2600+Math.random()*600;
+    (function mn(){
+      if(!self._menuNodes2.length&&self._menuTimers2.length===0)return;// stopped
+      if(!self._ac())return;
+      const bt=AC.currentTime;
+      const f=notes[ni++%notes.length];
+      const o=AC.createOscillator();o.type='triangle';o.frequency.value=f;
+      // Gentle vibrato
+      const vlfo=AC.createOscillator();vlfo.frequency.value=3.5;
+      const vlg=AC.createGain();vlg.gain.value=f*0.006;vlfo.connect(vlg);vlg.connect(o.frequency);
+      const g=AC.createGain();
+      g.gain.setValueAtTime(0,bt);g.gain.linearRampToValueAtTime(0.026,bt+0.4);
+      g.gain.setValueAtTime(0.026,bt+noteDur/1000-0.6);g.gain.exponentialRampToValueAtTime(0.001,bt+noteDur/1000);
+      o.connect(g);g.connect(self.ambG);
+      vlfo.start(bt);o.start(bt);o.stop(bt+noteDur/1000+.05);
+      self._mn2(o);self._mn2(vlfo);
+      self._menuTimers2.push(setTimeout(mn,noteDur));
+    })();
+  },
+
+  // ── Idle menu events ──
+  _schedMenuIdle(){
+    const self=this;
+    if(this._idleTimer)clearTimeout(this._idleTimer);
+    const delay=18000+Math.random()*14000;
+    this._idleTimer=setTimeout(()=>{
+      if(!['home','title'].includes(G.gs))return;
+      const r=Math.random();
+      if(r<.3)self._idleStatic();
+      else if(r<.55)self._idleWhisper();
+      else if(r<.75)self._idleFakeError();
+      else self._idleGlitchMelody();
+      // Schedule next
+      self._schedMenuIdle();
+    },delay);
+  },
+  _idleStatic(){
+    if(!this._ac())return;const t=AC.currentTime;
+    const sz=AC.sampleRate,buf=AC.createBuffer(1,sz,AC.sampleRate);
+    const d=buf.getChannelData(0);for(let i=0;i<sz;i++)d[i]=Math.random()*2-1;
+    const n=AC.createBufferSource();n.buffer=buf;
+    const f=AC.createBiquadFilter();f.type='bandpass';f.frequency.value=2200;f.Q.value=.5;
+    const g=AC.createGain();
+    g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.032,t+.1);
+    g.gain.setValueAtTime(.032,t+.4);g.gain.exponentialRampToValueAtTime(.001,t+.9);
+    n.connect(f);f.connect(g);g.connect(this.master);n.start(t);
+    setTimeout(()=>{try{n.stop();}catch(e){}},1100);
+  },
+  _idleWhisper(){
+    if(!this._ac())return;const t=AC.currentTime;
+    // Two-tone filtered noise "voice"
+    [900,1200].forEach((freq,i)=>{
+      const sz=AC.sampleRate*1.5|0,buf=AC.createBuffer(1,sz,AC.sampleRate);
+      const d=buf.getChannelData(0);for(let j=0;j<sz;j++)d[j]=Math.random()*2-1;
+      const n=AC.createBufferSource();n.buffer=buf;
+      const f=AC.createBiquadFilter();f.type='bandpass';f.frequency.value=freq;f.Q.value=7;
+      const g=AC.createGain();
+      g.gain.setValueAtTime(0,t+i*.15);g.gain.linearRampToValueAtTime(.018,t+i*.15+.3);
+      g.gain.setValueAtTime(.018,t+i*.15+.8);g.gain.exponentialRampToValueAtTime(.001,t+i*.15+1.3);
+      n.connect(f);f.connect(g);g.connect(this.master);n.start(t+i*.15);
+      setTimeout(()=>{try{n.stop();}catch(e){}},2000);
+    });
+  },
+  _idleFakeError(){
+    if(!this._ac())return;// Glitchy system alert pattern
+    [[880,0],[440,.07],[220,.14],[440,.22]].forEach(([f,d])=>{
+      const t=AC.currentTime+d;
+      const o=AC.createOscillator();o.type='square';o.frequency.value=f;
+      const g=AC.createGain();g.gain.setValueAtTime(.03,t);g.gain.exponentialRampToValueAtTime(.001,t+.055);
+      o.connect(g);g.connect(this.master);o.start(t);o.stop(t+.06);
+    });
+  },
+  _idleGlitchMelody(){
+    if(!this._ac())return;// short glitched-out version of menu melody
+    const notes=[440,523,659,880,523,349,440];
+    notes.forEach((f,i)=>{
+      const delay=i*120;
+      const t=AC.currentTime+delay/1000;
+      const o=AC.createOscillator();o.type=Math.random()>.5?'square':'sawtooth';o.frequency.value=f;
+      const g=AC.createGain();g.gain.setValueAtTime(.022,t);g.gain.exponentialRampToValueAtTime(.001,t+.08);
+      o.connect(g);g.connect(this.master);o.start(t);o.stop(t+.085);
+    });
+  },
+
+  // ── Pause / Resume audio ─────────────────
+  pauseAudio(){
+    if(!this._ac()||!this.musicFilter)return;
+    // Save current state
+    this._prePauseFilter=8000;
+    this._prePauseAmbVol=this.ambG?this.ambG.gain.value:0;
+    this._prePauseMusVol=this.musG?this.musG.gain.value:0;
+    // Sweep filter down (muffled feel)
+    const n=AC.currentTime;
+    this.musicFilter.frequency.cancelScheduledValues(n);
+    this.musicFilter.frequency.setValueAtTime(this.musicFilter.frequency.value,n);
+    this.musicFilter.frequency.linearRampToValueAtTime(320,n+.28);
+    // Reduce gains (tape-stop feel)
+    this._fade(this.ambG,this._prePauseAmbVol*.18,.22);
+    this._fade(this.musG,this._prePauseMusVol*.08,.22);
+    // Also muffle master slightly
+    if(this.master){
+      const n2=AC.currentTime;
+      this.master.gain.cancelScheduledValues(n2);this.master.gain.setValueAtTime(this.master.gain.value,n2);
+      this.master.gain.linearRampToValueAtTime(.18,n2+.25);
+    }
+  },
+
+  resumeAudio(){
+    if(!this._ac()||!this.musicFilter)return;
+    const n=AC.currentTime;
+    // Sweep filter back up
+    this.musicFilter.frequency.cancelScheduledValues(n);
+    this.musicFilter.frequency.setValueAtTime(this.musicFilter.frequency.value,n);
+    this.musicFilter.frequency.linearRampToValueAtTime(8000,n+.45);
+    // Restore gains
+    this._fade(this.ambG,this._prePauseAmbVol,.35);
+    this._fade(this.musG,this._prePauseMusVol,.35);
+    if(this.master){
+      const n2=AC.currentTime;
+      this.master.gain.cancelScheduledValues(n2);this.master.gain.setValueAtTime(this.master.gain.value,n2);
+      this.master.gain.linearRampToValueAtTime(.7,n2+.4);
+    }
+  },
+
+  stopMenuMusic(){this._stopMenuMusic();this._fade(this.ambG,0,.8);},
 };
 
 // ═══════════════════════════════════════════
@@ -2146,9 +2367,8 @@ function talkNPC(npc){
 }
 
 function openShop(){
-  G.gs='shop';document.getElementById('shop').style.display='flex';renderShopItems();
-  document.getElementById('shop-gold').textContent='💰 '+G.pl.gold+'g';
-  SFX.prt();
+  SFX.uiSlide();G.gs='shop';document.getElementById('shop').style.display='flex';renderShopItems();
+  document.getElementById('shop-gold').textContent='💰 '+G.pl.gold+'g';SFX.prt();
 }
 function renderShopItems(){
   const el=document.getElementById('shop-items');el.innerHTML='';
@@ -2934,8 +3154,18 @@ function gameLoop(now){
 // ═══════════════════════════════════════════
 const DIRS={ArrowUp:[0,-1],ArrowDown:[0,1],ArrowLeft:[-1,0],ArrowRight:[1,0],
   w:[0,-1],s:[0,1],a:[-1,0],d:[1,0],W:[0,-1],S:[0,1],A:[-1,0],D:[1,0]};
+// ── Secret Konami code → corrupted menu audio ──
+const _KONAMI=[38,38,40,40,37,39,37,39,66,65];let _kIdx=0;
 document.addEventListener('keydown',ev=>{
-  if(G.gs==='home'){if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();startGame();}return;}
+  if(G.gs==='home'){
+    if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();startGame();}
+    // Menu navigation tick on arrow keys
+    if(['ArrowUp','ArrowDown'].includes(ev.key))SFX.menuTick();
+    // Konami code detection
+    if(ev.keyCode===_KONAMI[_kIdx]){_kIdx++;if(_kIdx===_KONAMI.length){_kIdx=0;_triggerSecretMenu();}}
+    else _kIdx=0;
+    return;
+  }
   if(ev.key==='Escape'){
     if(G.gs==='settings'){closeSettings();return;}
     if(G.gs==='paused'){resumeGame();return;}
@@ -2944,14 +3174,24 @@ document.addEventListener('keydown',ev=>{
   }
   if(ev.key==='i'||ev.key==='I'){if(G.gs==='explore'){ev.preventDefault();openInv();return;}}
   if(ev.key==='p'||ev.key==='P'){if(PAUSEABLE.includes(G.gs)||G.gs==='paused'){togglePause();return;}}
-  if(G.gs==='title'){ev.preventDefault();G.gs='explore';document.getElementById('title').style.display='none';document.getElementById('pause-btn').classList.add('vis');return;}
+  if(G.gs==='title'){ev.preventDefault();SFX.crtTick();G.gs='explore';document.getElementById('title').style.display='none';document.getElementById('pause-btn').classList.add('vis');return;}
   if(G.gs==='dialogue'){ev.preventDefault();advDlg();return;}
   if(G.gs==='shop'){if(ev.key==='Escape'||ev.key==='Enter'){closeShop();}return;}
   if(G.gs==='lore'){if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();closeLore();}return;}
   if(G.gs==='paused'||G.gs==='home')return;
   const dir=DIRS[ev.key];if(dir){ev.preventDefault();tryMove(...dir);}
 });
-document.getElementById('title').addEventListener('click',()=>{if(G.gs==='title'){G.gs='explore';document.getElementById('title').style.display='none';document.getElementById('pause-btn').classList.add('vis');}});
+function _triggerSecretMenu(){
+  SFX.secretUnlock();
+  AE._stopMenuMusic();
+  // Override theme to corrupted for this session
+  AE._menuTheme='corrupted';
+  setTimeout(()=>AE.startMenuMusic(),400);
+  addMsg('[ SYSTEM: CORRUPTED AUDIO MODE UNLOCKED ]','boss');
+}
+document.getElementById('title').addEventListener('click',()=>{
+  if(G.gs==='title'){SFX.crtTick();G.gs='explore';document.getElementById('title').style.display='none';document.getElementById('pause-btn').classList.add('vis');}
+});
 document.getElementById('dlg').addEventListener('click',()=>{if(G.gs==='dialogue')advDlg();});
 let ts2=null;
 document.getElementById('mc').addEventListener('touchstart',ev=>{ts2={x:ev.touches[0].clientX,y:ev.touches[0].clientY};ev.preventDefault();},{passive:false});
@@ -3162,32 +3402,24 @@ function drawWitch(c,ox,oy,ws,mov,hf,now){
 // CHARACTER SELECT UI
 // ═══════════════════════════════════════════
 function showCharSelect(){
+  SFX.uiSlide();
   document.getElementById('charsel').style.display='flex';
-  _selChar=G_CHAR_IDX;
-  highlightCard(_selChar);
-  renderCharPreviews(performance.now());
+  _selChar=G_CHAR_IDX;highlightCard(_selChar);renderCharPreviews(performance.now());
+  for(let i=0;i<4;i++){
+    setTimeout(()=>SFX.menuBlip(),i*70+60);
+    const card=document.getElementById('cc-'+i);
+    if(card&&!card._hoverBound){card.addEventListener('mouseenter',()=>SFX.menuHov());card._hoverBound=true;}
+  }
 }
-function hideCharSelect(){
-  document.getElementById('charsel').style.display='none';
-}
-function selectChar(idx){
-  _selChar=idx;
-  highlightCard(idx);
-}
-function highlightCard(idx){
-  for(let i=0;i<4;i++)document.getElementById('cc-'+i).classList.toggle('sel',i===idx);
-}
+function hideCharSelect(){document.getElementById('charsel').style.display='none';}
+function selectChar(idx){_selChar=idx;highlightCard(idx);SFX.charStinger(idx);}
+function highlightCard(idx){for(let i=0;i<4;i++)document.getElementById('cc-'+i).classList.toggle('sel',i===idx);}
 function confirmCharSelect(){
-  G_CHAR_IDX=_selChar;
-  hideCharSelect();
-  document.getElementById('title').style.display='flex';
-  G.gs='title';
-  AE.startVillage();// begin village ambience on confirm
+  G_CHAR_IDX=_selChar;SFX.menuConf();
+  hideCharSelect();document.getElementById('title').style.display='flex';G.gs='title';AE.startVillage();
 }
 function backFromCharSel(){
-  hideCharSelect();
-  document.getElementById('home').style.display='flex';
-  G.gs='home';
+  SFX.menuBack();hideCharSelect();document.getElementById('home').style.display='flex';G.gs='home';
 }
 function renderCharPreviews(now){
   const ids=['merc','sentinel','rogue','witch'];
@@ -3278,8 +3510,8 @@ function applyAllSTG(){
   dp.classList.add('dps-'+(STG.dpStyle||'disc'));
   syncSTGUI();
   G.hardMode=STG.hm;
-  document.getElementById('hbtn-hm').textContent='☠  HARD MODE: '+(STG.hm?'ON':'OFF');
-  document.getElementById('hbtn-hm').classList.toggle('active',STG.hm);
+  const _hmbtn=document.getElementById('hbtn-hm');
+  if(_hmbtn){_hmbtn.textContent='☠  HARD MODE: '+(STG.hm?'ON':'OFF');_hmbtn.classList.toggle('active',STG.hm);}
 }
 
 function syncSTGUI(){
@@ -3346,16 +3578,16 @@ function applyST(key,el){
 function togST(key,btn){
   if(key==='hm'){toggleHard();return;}
   STG[key]=!STG[key];btn.textContent=STG[key]?'ON':'OFF';btn.classList.toggle('on',STG[key]);
-  if(key==='adlg'){}// handled in dialogue engine
+  SFX.menuTick();
+  if(key==='adlg'){}
   applyAllSTG();saveSTG();
 }
 function setDP(type,val){
   if(type==='sz')STG.dpSz=val;else STG.dpSd=val;
-  applyAllSTG();saveSTG();
+  SFX.menuTick();applyAllSTG();saveSTG();
 }
 function setDPStyle(style){
-  STG.dpStyle=style;
-  applyAllSTG();saveSTG();
+  STG.dpStyle=style;SFX.menuTick();applyAllSTG();saveSTG();
 }
 function resetSettings(){
   Object.assign(STG,STG_DEF);applyAllSTG();saveSTG();
@@ -3363,11 +3595,16 @@ function resetSettings(){
 }
 
 function openSettings(from){
-  _settingsFrom=from;
+  _settingsFrom=from;SFX.uiSlide();
   syncSTGUI();
   document.getElementById('settings').style.display='flex';
+  // Bind hover sounds to settings toggles
+  document.querySelectorAll('.stg-tog,.sopt').forEach(b=>{
+    if(!b._hoverBound){b.addEventListener('mouseenter',()=>SFX.menuHov());b._hoverBound=true;}
+  });
 }
 function closeSettings(){
+  SFX.menuBack();
   document.getElementById('settings').style.display='none';
   if(_settingsFrom==='home'){document.getElementById('home').style.display='flex';}
   else if(_settingsFrom==='pause'){document.getElementById('pause').style.display='flex';}
@@ -3454,10 +3691,13 @@ function renderBestRuns(){
   try{
     const el=document.getElementById('best-runs');if(!el)return;
     const bests=JSON.parse(localStorage.getItem('dq_bests')||'[]');
-    if(!bests.length){el.textContent='NO RECORDS YET. GET OUT THERE.';return;}
+    if(!bests.length){
+      el.innerHTML='<span style="color:#885533;letter-spacing:1px">NO RECORDS YET. GET OUT THERE.</span>';
+      return;
+    }
     const chars=['MERC','SENT','ROGUE','WITCH'];
-    el.innerHTML='<span style="color:#441020;letter-spacing:2px">BEST RUNS ▾</span><br>'+
-      bests.slice(0,3).map((b,i)=>`<span style="color:#331018">#${i+1} ${chars[b.char]||'MERC'} · FL${b.floor} · ${b.kills}KILLS · ${b.gold}G</span>`).join('<br>');
+    el.innerHTML='<span style="color:#cc5533;letter-spacing:2px">BEST RUNS ▾</span><br>'+
+      bests.slice(0,3).map((b,i)=>`<span style="color:#aa6644">#${i+1} ${chars[b.char]||'MERC'} · FL${b.floor} · ${b.kills} KILLS · ${b.gold}G</span>`).join('<br>');
   }catch(e){}
 }
 // track cumulative chimichanga count
@@ -3695,9 +3935,6 @@ function showHome(){
   ['cs','dlg','bbl','ec','end','go','shop','lore','pause','settings','title','charsel','inv','skilltree'].forEach(id=>{const e=document.getElementById(id);if(e)e.style.display='none';});
   document.getElementById('home').style.display='flex';
   document.getElementById('pause-btn').classList.remove('vis');
-  // sync hard mode button
-  document.getElementById('hbtn-hm').textContent='☠  HARD MODE: '+(STG.hm?'ON':'OFF');
-  document.getElementById('hbtn-hm').classList.toggle('active',STG.hm);
   // Continue button
   const meta=getSaveMeta();
   const contBtn=document.getElementById('hbtn-cont');
@@ -3711,10 +3948,23 @@ function showHome(){
     if(invBtn)invBtn.style.display='none';
   }
   renderBestRuns();
-  // combo HUD off on home
   const ch=document.getElementById('combo-hud');if(ch)ch.style.display='none';
+  // ── Menu music + hover sounds ──
+  if(AE._initialized||AC){
+    setTimeout(()=>{AE.startMenuMusic();},120);
+  }
+  // Stagger button appear blips
+  document.querySelectorAll('#h-btns .hbtn').forEach((btn,i)=>{
+    setTimeout(()=>SFX.menuBlip(),i*55+80);
+    if(!btn._hoverBound){
+      btn.addEventListener('mouseenter',()=>SFX.menuHov());
+      btn._hoverBound=true;
+    }
+  });
 }
 function startGame(){
+  SFX.menuConf();
+  AE.stopMenuMusic();
   document.getElementById('home').style.display='none';
   showCharSelect();
 }
@@ -3730,8 +3980,9 @@ function togglePause(){
 }
 function pauseGame(){
   _prePauseGs=G.gs;G.gs='paused';
+  SFX.pauseIn();
+  AE.pauseAudio();
   document.getElementById('pause').style.display='flex';
-  // Run stats
   const s=G.stats,p=G.pl,fl=G.mode==='village'?'VILLAGE':('FL.'+(G.floor+1));
   document.getElementById('p-runstats').innerHTML=
     `<div class="prs"><span class="prs-v">${p.lv}</span>LEVEL</div>`+
@@ -3748,6 +3999,8 @@ function pauseGame(){
   ][Math.floor(Math.random()*4)];
 }
 function resumeGame(){
+  SFX.pauseOut();
+  AE.resumeAudio();
   document.getElementById('pause').style.display='none';G.gs=_prePauseGs;
 }
 function confirmRestart(){
